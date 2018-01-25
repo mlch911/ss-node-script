@@ -5,13 +5,13 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.1.0
+#	Version: 0.1.1
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.1.0"
-github=" https://raw.githubusercontent.com/mlch911/ss-node-script/master/"
+sh_ver="0.1.1"
+github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
@@ -79,7 +79,7 @@ esac
 #更新脚本
 Update_Shell(){
 	echo -e "当前版本为 [ ${sh_ver} ]，开始检测最新版本..."
-	sh_new_ver=$(wget --no-check-certificate -qO- "http://${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+	sh_new_ver=$(wget --no-check-certificate -qO- "https://${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 检测最新版本失败 !" && start_menu
 	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 		echo -e "发现新版本[ ${sh_new_ver} ]，是否更新？[Y/n]"
@@ -99,7 +99,7 @@ Update_Shell(){
 	fi
 }
 
-#安装脚本
+#安装依赖
 Install_Shell(){
 	if [[ "${release}" == "centos" ]]; then
 		cd ~
@@ -124,6 +124,7 @@ Install_Shell(){
 	
 }
 
+#服务器配置
 ServerSetup_Shell(){
 	cd /root/shadowsocks
 	
@@ -173,6 +174,7 @@ ServerSetup_Shell(){
 	start_menu
 }
 
+#运行服务
 Run_Shell(){
 	cd /root/shadowsocks
 	read -p " ${Info}建议执行python server.py进行测试后再运行服务\n是否运行服务 :(y/n)" input
