@@ -18,13 +18,6 @@ Info="${Green_font_prefix}[信息]${Font_color_suffix}"
 Error="${Red_font_prefix}[错误]${Font_color_suffix}"
 Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
 
-#############开始#############
-check_sys
-check_version
-[[ ${release} != "centos" ]] && echo -e "${Error} 本脚本不支持当前系统 ${release} !" && exit 1
-start_menu
-#############开始#############
-
 
 #开始菜单
 start_menu(){
@@ -311,3 +304,8 @@ check_version(){
 # }
 
 #############系统检测组件#############
+
+check_sys
+check_version
+[[ ${release} != "centos" ]] && echo -e "${Error} 本脚本不支持当前系统 ${release} !" && exit 1
+start_menu
