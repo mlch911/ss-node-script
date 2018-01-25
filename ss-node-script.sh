@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.2.8
+#	Version: 0.2.9
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.2.8"
+sh_ver="0.2.9"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -189,12 +189,12 @@ ServerSetup_Shell(){
 Run_Shell(){
 	cd /root/shadowsocks
 	echo -e " ${Info} 建议执行python server.py进行测试后再运行服务"
-	read -p "是否运行服务 :(y/n)" input
-	if [ ${input} == "y" ] ;then
+	read -p "是否运行服务 :(y/n)" run_input_a
+	if [ ${run_input_a} == "y" ] ;then
 		./run.sh
 		echo -e " ${Info} sspanel后端运行成功！"
-		read -p "是否退出脚本 :(y/n)" input
-		if [ ${input} == "y" ] ;then
+		read -p "是否退出脚本 :(y/n)" run_input_b
+		if [ ${run_input_b} == "y" ] ;then
 			exit 1
 		fi
 		sleep 2s
