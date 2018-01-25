@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.2.1
+#	Version: 0.2.2
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.2.1"
+sh_ver="0.2.2"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -26,14 +26,15 @@ clear
 echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
   -- 壕琛小站 | ss.mluoc.tk --
   
-  第一次运行，请按照0->1->2->3的顺序执行脚本
+  第一次运行，请按照0->1->2->3->4的顺序执行脚本
   
  ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
  ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
  ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
  ${Green_font_prefix}3.${Font_color_suffix} 运行服务
- ${Green_font_prefix}4.${Font_color_suffix} 卸载脚本
- ${Green_font_prefix}5.${Font_color_suffix} 退出脚本
+ ${Green_font_prefix}4.${Font_color_suffix} 开放防火墙
+ ${Green_font_prefix}5.${Font_color_suffix} 卸载脚本
+ ${Green_font_prefix}6.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
 	# check_status
@@ -60,9 +61,12 @@ case "$num" in
 	Run_Shell
 	;;
 	4)
-	Uninstall_Shell
+	Firewalld_Shell
 	;;
 	5)
+	Uninstall_Shell
+	;;
+	6)
 	exit 1
 	;;
 	*)
@@ -184,20 +188,53 @@ ServerSetup_Shell(){
 #运行服务
 Run_Shell(){
 	cd /root/shadowsocks
-	read -p " ${Info} 建议执行python server.py进行测试后再运行服务\n是否运行服务 :(y/n)" input
+	echo -e " ${Info} 建议执行python server.py进行测试后再运行服务"
+	read -p "是否运行服务 :(y/n)" input
 	if [ input == "y" ] ;then
 		./run.sh
 	else
 		start_menu
 	fi
 	
-	read -p " ${Info} sspanel后端运行成功！\n是否退出脚本 :(y/n)" input
+	echo -e " ${Info} sspanel后端运行成功！"
+	read -p "是否退出脚本 :(y/n)" input
 	if [ input == "y" ] ;then
 		exit 1
 	fi
-	sleep 5s
+	sleep 2s
 	start_menu
 }
+
+#开放防火墙
+Firewalld_Shell(){
+	echo -e "开放防火墙 :
+	${Green_font_prefix}1.${Font_color_suffix} 单端口
+	${Green_font_prefix}2.${Font_color_suffix} 端口段
+	————————————————————————————————"
+	read -p "请输入数字 :" num
+	if [ ${num} == "1" ] ;then
+		read -p " 开放防火墙端口为 :" port_a
+		firewall-cmd --permanent --zone=public --add-port=${port_a}/tcp
+		firewall-cmd --permanent --zone=public --add-port=${port_a}/udp
+		firewall-cmd --reload
+	elif [ ${num} == "2" ] ;then
+		read -p " 开放防火墙端口从 :" port_b
+		read -p " 开放防火墙端口到 :" port_c
+		firewall-cmd --permanent --zone=public --add-port=${port_b}-${port_c}/tcp
+		firewall-cmd --permanent --zone=public --add-port=${port_b}-${port_c}/udp
+		firewall-cmd --reload
+	fi
+	
+	echo -e " ${Info} 开放防火墙运行完成！"
+	read -p "是否退出脚本 :(y/n)" input
+	if [ input == "y" ] ;then
+		exit 1
+	fi
+	sleep 2s
+	start_menu
+	
+}
+
 
 #############系统检测组件#############
 
