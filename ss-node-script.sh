@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.1.4
+#	Version: 0.1.5
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.1.4"
+sh_ver="0.1.5"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -26,7 +26,7 @@ clear
 echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
   -- 壕琛小站 | ss.mluoc.tk --
   
-  请按照0->1->2->3的顺序执行脚本
+  第一次运行，请按照0->1->2->3的顺序执行脚本
   
  ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
  ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
@@ -93,7 +93,7 @@ Update_Shell(){
 		fi
 	else
 		echo -e "当前已是最新版本[ ${sh_new_ver} ] !"
-		sleep 5s
+		sleep 2s
 		start_menu
 	fi
 }
@@ -138,7 +138,7 @@ ServerSetup_Shell(){
 	#设置服务器IP
 	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
 	if  [ mysql_host_input != "" ] ;then
-		mysql_host=mysql_host_input
+		mysql_host=${mysql_host_input}
 	else
 		mysql_host="127.0.0.1"
 	fi
@@ -147,7 +147,7 @@ ServerSetup_Shell(){
 	#设置mysql服务器端口
 	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
 	if  [ mysql_port_input != "" ] ;then
-		mysql_port=mysql_port_input
+		mysql_port=${mysql_port_input}
 	else
 		mysql_port="3306"
 	fi
@@ -156,7 +156,7 @@ ServerSetup_Shell(){
 	#设置mysql服务器用户
 	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
 	if  [ mysql_user_input != "" ] ;then
-		mysql_user=mysql_user_input
+		mysql_user=${mysql_user_input}
 	else
 		mysql_user="sspanel"
 	fi
@@ -165,7 +165,7 @@ ServerSetup_Shell(){
 	#设置mysql服务器密码
 	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
 	if  [ mysql_pass_input != "" ] ;then
-		mysql_pass=mysql_pass_input
+		mysql_pass=${mysql_pass_input}
 	else
 		mysql_pass="sspanel"
 	fi
@@ -174,7 +174,7 @@ ServerSetup_Shell(){
 	#设置mysql服务器数据库
 	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
 	if  [ mysql_db_input != "" ] ;then
-		mysql_db=mysql_db_input
+		mysql_db=${mysql_db_input}
 	else
 		mysql_db="sspanel"
 	fi
