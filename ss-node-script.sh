@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.2.5
+#	Version: 0.2.6
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.2.5"
+sh_ver="0.2.6"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -154,7 +154,7 @@ ServerSetup_Shell(){
 	if  [ ${mysql_port_input} ] ;then
 		mysql_port=${mysql_port_input}
 	fi
-	sed -i "24c MYSQL_PORT = ${mysql_port}" userapiconfig.py
+	sed -i "25c MYSQL_PORT = ${mysql_port}" userapiconfig.py
 	
 	#设置mysql服务器用户
 	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
@@ -162,7 +162,7 @@ ServerSetup_Shell(){
 	if  [ ${mysql_user_input} ] ;then
 		mysql_user=${mysql_user_input}
 	fi
-	sed -i "24c MYSQL_USER = '${mysql_user}'" userapiconfig.py
+	sed -i "26c MYSQL_USER = '${mysql_user}'" userapiconfig.py
 	
 	#设置mysql服务器密码
 	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
@@ -170,7 +170,7 @@ ServerSetup_Shell(){
 	if  [ ${mysql_pass_input} ] ;then
 		mysql_pass=${mysql_pass_input}
 	fi
-	sed -i "24c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
+	sed -i "27c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
 	
 	#设置mysql服务器数据库
 	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
@@ -178,7 +178,7 @@ ServerSetup_Shell(){
 	if  [ ${mysql_db_input} ] ;then
 		mysql_db=${mysql_db_input}
 	fi
-	sed -i "24c MYSQL_DB = '${mysql_db}'" userapiconfig.py
+	sed -i "28c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 	
 	echo -e "${Info}服务器配置成功！"
 	sleep 5s
