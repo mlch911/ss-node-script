@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.1.1
+#	Version: 0.1.2
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.1.1"
+sh_ver="0.1.2"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -29,6 +29,8 @@ start_menu(){
 clear
 echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
   -- 壕琛小站 | ss.mluoc.tk --
+  
+  请按照0->1->2->3的顺序执行脚本
   
  ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
  ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
@@ -80,7 +82,7 @@ esac
 Update_Shell(){
 	echo -e "当前版本为 [ ${sh_ver} ]，开始检测最新版本..."
 	sh_new_ver=$(wget --no-check-certificate -qO- "https://${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
-	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 检测最新版本失败 !" && start_menu
+	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 检测最新版本失败 !" && sleep 2s && start_menu
 	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 		echo -e "发现新版本[ ${sh_new_ver} ]，是否更新？[Y/n]"
 		read -p "(默认: y):" yn
@@ -120,6 +122,7 @@ Install_Shell(){
 	fi
 	
 	echo -e "${Info}依赖安装成功！"
+	sleep 5s
 	start_menu
 	
 }
@@ -137,40 +140,41 @@ ServerSetup_Shell(){
 	
 	#设置服务器IP
 	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
-	if  [ -n "$mysql_host_input" ] ;then
+	if  [ mysql_host_input == "" ] ;then
 		mysql_host = mysql_host_input
 	fi
 	sed -n "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
 	
 	#设置mysql服务器端口
 	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
-	if  [ -n "$mysql_port_input" ] ;then
+	if  [ mysql_port_input == "" ] ;then
 		mysql_port = mysql_port_input
 	fi
 	sed -n "24c MYSQL_PORT = ${mysql_port}" userapiconfig.py
 	
 	#设置mysql服务器用户
 	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
-	if  [ -n "$mysql_user_input" ] ;then
+	if  [ mysql_user_input == "" ] ;then
 		mysql_user = mysql_user_input
 	fi
 	sed -n "24c MYSQL_USER = '${mysql_user}'" userapiconfig.py
 	
 	#设置mysql服务器密码
 	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
-	if  [ -n "$mysql_pass_input" ] ;then
+	if  [ mysql_pass_input == "" ] ;then
 		mysql_pass = mysql_pass_input
 	fi
 	sed -n "24c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
 	
 	#设置mysql服务器数据库
 	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
-	if  [ -n "$mysql_db_input" ] ;then
+	if  [ mysql_db_input == "" ] ;then
 		mysql_db = mysql_db_input
 	fi
 	sed -n "24c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 	
 	echo -e "${Info}服务器配置成功！"
+	sleep 5s
 	start_menu
 }
 
@@ -186,6 +190,7 @@ Run_Shell(){
 	if [ input == "y" ] ;then
 		exit 1
 	fi
+	sleep 5s
 	start_menu
 }
 
