@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.2.2
+#	Version: 0.2.3
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.2.2"
+sh_ver="0.2.3"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -46,7 +46,7 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
 	
 	
 echo
-read -p " 请输入数字 [0-8]:" num
+read -p " 请输入数字 [0-6]:" num
 case "$num" in
 	0)
 	Update_Shell
@@ -134,10 +134,10 @@ ServerSetup_Shell(){
 	
 	#设置node_id
 	read -p " 请输入该节点的NODE_ID :" node_id
-	sed -n "2c NODE_ID = ${node_id}" userapiconfig.py
+	sed -n -i "2c NODE_ID = ${node_id}" userapiconfig.py
 	
 	#设置API
-	sed -n '15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi' userapiconfig.py
+	sed -n -i '15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi' userapiconfig.py
 	
 	#设置服务器IP
 	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
@@ -146,7 +146,7 @@ ServerSetup_Shell(){
 	else
 		mysql_host="127.0.0.1"
 	fi
-	sed -n "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
+	sed -n -i "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
 	
 	#设置mysql服务器端口
 	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
@@ -154,7 +154,7 @@ ServerSetup_Shell(){
 	if  [ ${mysql_port_input} ] ;then
 		mysql_port=${mysql_port_input}
 	fi
-	sed -n "24c MYSQL_PORT = ${mysql_port}" userapiconfig.py
+	sed -n -i "24c MYSQL_PORT = ${mysql_port}" userapiconfig.py
 	
 	#设置mysql服务器用户
 	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
@@ -162,7 +162,7 @@ ServerSetup_Shell(){
 	if  [ ${mysql_user_input} ] ;then
 		mysql_user=${mysql_user_input}
 	fi
-	sed -n "24c MYSQL_USER = '${mysql_user}'" userapiconfig.py
+	sed -n -i "24c MYSQL_USER = '${mysql_user}'" userapiconfig.py
 	
 	#设置mysql服务器密码
 	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
@@ -170,7 +170,7 @@ ServerSetup_Shell(){
 	if  [ ${mysql_pass_input} ] ;then
 		mysql_pass=${mysql_pass_input}
 	fi
-	sed -n "24c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
+	sed -n -i "24c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
 	
 	#设置mysql服务器数据库
 	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
@@ -178,7 +178,7 @@ ServerSetup_Shell(){
 	if  [ ${mysql_db_input} ] ;then
 		mysql_db=${mysql_db_input}
 	fi
-	sed -n "24c MYSQL_DB = '${mysql_db}'" userapiconfig.py
+	sed -n -i "24c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 	
 	echo -e "${Info}服务器配置成功！"
 	sleep 5s
@@ -207,10 +207,11 @@ Run_Shell(){
 
 #开放防火墙
 Firewalld_Shell(){
-	echo -e "开放防火墙 :
-	${Green_font_prefix}1.${Font_color_suffix} 单端口
-	${Green_font_prefix}2.${Font_color_suffix} 端口段
-	————————————————————————————————"
+	clear
+	echo -e " 开放防火墙 :
+ ${Green_font_prefix}1.${Font_color_suffix} 单端口
+ ${Green_font_prefix}2.${Font_color_suffix} 端口段
+————————————————————————————————"
 	read -p "请输入数字 :" num
 	if [ ${num} == "1" ] ;then
 		read -p " 开放防火墙端口为 :" port_a
