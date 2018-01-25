@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.1.3
+#	Version: 0.1.4
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.1.3"
+sh_ver="0.1.4"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -138,45 +138,45 @@ ServerSetup_Shell(){
 	#设置服务器IP
 	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
 	if  [ mysql_host_input != "" ] ;then
-		mysql_host = mysql_host_input
+		mysql_host=mysql_host_input
 	else
-		mysql_host = "127.0.0.1"
+		mysql_host="127.0.0.1"
 	fi
 	sed -n "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
 	
 	#设置mysql服务器端口
 	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
 	if  [ mysql_port_input != "" ] ;then
-		mysql_port = mysql_port_input
+		mysql_port=mysql_port_input
 	else
-		mysql_port = "3306"
+		mysql_port="3306"
 	fi
 	sed -n "24c MYSQL_PORT = ${mysql_port}" userapiconfig.py
 	
 	#设置mysql服务器用户
 	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
 	if  [ mysql_user_input != "" ] ;then
-		mysql_user = mysql_user_input
+		mysql_user=mysql_user_input
 	else
-		mysql_user = "sspanel"
+		mysql_user="sspanel"
 	fi
 	sed -n "24c MYSQL_USER = '${mysql_user}'" userapiconfig.py
 	
 	#设置mysql服务器密码
 	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
 	if  [ mysql_pass_input != "" ] ;then
-		mysql_pass = mysql_pass_input
+		mysql_pass=mysql_pass_input
 	else
-		mysql_pass = "sspanel"
+		mysql_pass="sspanel"
 	fi
 	sed -n "24c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
 	
 	#设置mysql服务器数据库
 	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
 	if  [ mysql_db_input != "" ] ;then
-		mysql_db = mysql_db_input
+		mysql_db=mysql_db_input
 	else
-		mysql_db = "sspanel"
+		mysql_db="sspanel"
 	fi
 	sed -n "24c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 	
