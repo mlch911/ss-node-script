@@ -121,38 +121,44 @@ Install_Shell(){
 	sed -n "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
 	
 	#设置mysql服务器端口
-	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port
-	if  [ ! -n "$mysql_port" ] ;then
-		mysql_port = "3306"
+	mysql_port = "3306"
+	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
+	if  [ -n "$mysql_port_input" ] ;then
+		mysql_port = mysql_port_input
 	fi
 	sed -n "24c MYSQL_PORT = ${mysql_port}" userapiconfig.py
 	
 	#设置mysql服务器用户
-	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user
-	if  [ ! -n "$mysql_user" ] ;then
-		mysql_user = "sspanel"
+	mysql_user = "sspanel"
+	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
+	if  [ -n "$mysql_user_input" ] ;then
+		mysql_user = mysql_user_input
 	fi
 	sed -n "24c MYSQL_USER = '${mysql_user}'" userapiconfig.py
 	
 	#设置mysql服务器密码
-	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass
-	if  [ ! -n "$mysql_pass" ] ;then
-		mysql_pass = "sspanel"
+	mysql_pass = "sspanel"
+	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
+	if  [ -n "$mysql_pass_input" ] ;then
+		mysql_pass = mysql_pass_input
 	fi
 	sed -n "24c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
 	
 	#设置mysql服务器数据库
-	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db
-	if  [ ! -n "$mysql_db" ] ;then
-		mysql_db = "sspanel"
+	mysql_db = "sspanel"
+	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
+	if  [ -n "$mysql_db_input" ] ;then
+		mysql_db = mysql_db_input
 	fi
 	sed -n "24c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 	
-	read -p ' ${Info}sspanel后端安装成功！推荐执行python server.py进行测试' mysql_db
-	#./run.sh
+	read -p " ${Info}sspanel后端安装成功！\n建议执行python server.py进行测试后再运行\n是否开始运行SS :(y/n)" input
+	if [ input == "y" ] ;then
+		./run.sh
+	fi
 	
-	echo -e "${Info}sspanel后端安装成功！"
-	
+	echo -e "${Info}sspanel后端安装成功！愉快玩耍吧！"
+	exit 1
 }
 
 
