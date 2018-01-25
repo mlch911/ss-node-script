@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.0.1
+#	Version: 0.1.0
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.0.1"
+sh_ver="0.1.0"
 github=" https://raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -18,6 +18,11 @@ Info="${Green_font_prefix}[信息]${Font_color_suffix}"
 Error="${Red_font_prefix}[错误]${Font_color_suffix}"
 Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
 
+mysql_host = "127.0.0.1"
+mysql_port = "3306"
+mysql_user = "sspanel"
+mysql_pass = "sspanel"
+mysql_db = "sspanel"
 
 #开始菜单
 start_menu(){
@@ -26,9 +31,11 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
   -- 壕琛小站 | ss.mluoc.tk --
   
  ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
- ${Green_font_prefix}1.${Font_color_suffix} 安装脚本
- ${Green_font_prefix}2.${Font_color_suffix} 卸载脚本
- ${Green_font_prefix}3.${Font_color_suffix} 退出脚本
+ ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
+ ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
+ ${Green_font_prefix}3.${Font_color_suffix} 运行服务
+ ${Green_font_prefix}4.${Font_color_suffix} 卸载脚本
+ ${Green_font_prefix}5.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
 	# check_status
@@ -49,9 +56,15 @@ case "$num" in
 	Install_Shell
 	;;
 	2)
-	Uninstall_Shell
+	ServerSetup_Shell
 	;;
 	3)
+	Run_Shell
+	;;
+	4)
+	Uninstall_Shell
+	;;
+	5)
 	exit 1
 	;;
 	*)
@@ -106,6 +119,14 @@ Install_Shell(){
 		cp config.json user-config.json
 	fi
 	
+	echo -e "${Info}依赖安装成功！"
+	start_menu
+	
+}
+
+ServerSetup_Shell(){
+	cd /root/shadowsocks
+	
 	#设置node_id
 	read -p " 请输入该节点的NODE_ID :" node_id
 	sed -n "2c NODE_ID = ${node_id}" userapiconfig.py
@@ -114,14 +135,13 @@ Install_Shell(){
 	sed -n '15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi' userapiconfig.py
 	
 	#设置服务器IP
-	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host
-	if  [ ! -n "$mysql_host" ] ;then
-		mysql_host = "127.0.0.1"
+	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
+	if  [ -n "$mysql_host_input" ] ;then
+		mysql_host = mysql_host_input
 	fi
 	sed -n "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
 	
 	#设置mysql服务器端口
-	mysql_port = "3306"
 	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
 	if  [ -n "$mysql_port_input" ] ;then
 		mysql_port = mysql_port_input
@@ -129,7 +149,6 @@ Install_Shell(){
 	sed -n "24c MYSQL_PORT = ${mysql_port}" userapiconfig.py
 	
 	#设置mysql服务器用户
-	mysql_user = "sspanel"
 	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
 	if  [ -n "$mysql_user_input" ] ;then
 		mysql_user = mysql_user_input
@@ -137,7 +156,6 @@ Install_Shell(){
 	sed -n "24c MYSQL_USER = '${mysql_user}'" userapiconfig.py
 	
 	#设置mysql服务器密码
-	mysql_pass = "sspanel"
 	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
 	if  [ -n "$mysql_pass_input" ] ;then
 		mysql_pass = mysql_pass_input
@@ -145,23 +163,29 @@ Install_Shell(){
 	sed -n "24c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
 	
 	#设置mysql服务器数据库
-	mysql_db = "sspanel"
 	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
 	if  [ -n "$mysql_db_input" ] ;then
 		mysql_db = mysql_db_input
 	fi
 	sed -n "24c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 	
-	read -p " ${Info}sspanel后端安装成功！\n建议执行python server.py进行测试后再运行\n是否开始运行SS :(y/n)" input
+	echo -e "${Info}服务器配置成功！"
+	start_menu
+}
+
+Run_Shell(){
+	cd /root/shadowsocks
+	read -p " ${Info}建议执行python server.py进行测试后再运行服务\n是否运行服务 :(y/n)" input
 	if [ input == "y" ] ;then
 		./run.sh
 	fi
 	
-	echo -e "${Info}sspanel后端安装成功！愉快玩耍吧！"
-	exit 1
+	read -p " ${Info}sspanel后端运行成功！\n是否退出脚本 :(y/n)" input
+	if [ input == "y" ] ;then
+		exit 1
+	fi
+	start_menu
 }
-
-
 
 #############系统检测组件#############
 
