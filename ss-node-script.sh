@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin:/root
 export PATH
 
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.3.
+#	Version: 0.3.4
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.3.3"
+sh_ver="0.3.4"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -105,8 +105,8 @@ Update_Shell(){
 #安装依赖
 Install_Shell(){
 	if [[ "${release}" == "centos" ]]; then
-		cd ~ &&	yum -y groupinstall "Development Tools" && wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz && tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16 && ./configure && make -j2 && make install && echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf && ldconfig || read -p "${Error}依赖安装失败！按任意键返回主界面。" x && start_menu
-		cd /root && yum -y install python-setuptools && easy_install pip && git clone -b manyuser https://github.com/glzjin/shadowsocks.git && cd shadowsocks && pip install -r requirements.txt && cp apiconfig.py userapiconfig.py && cp config.json user-config.json || read -p "${Error}依赖安装失败！按任意键返回主界面。" x && start_menu
+		{ cd ~ &&	yum -y groupinstall "Development Tools" && wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz && tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16 && ./configure && make -j2 && make install && echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf && ldconfig } || { read -p "${Error}依赖安装失败！按任意键返回主界面。" x && start_menu }
+		{ cd /root && yum -y install python-setuptools && easy_install pip && git clone -b manyuser https://github.com/glzjin/shadowsocks.git && cd shadowsocks && pip install -r requirements.txt && cp apiconfig.py userapiconfig.py && cp config.json user-config.json } || { read -p "${Error}依赖安装失败！按任意键返回主界面。" x && start_menu }
 	fi
 	
 	echo -e "${Info}依赖安装成功！"
