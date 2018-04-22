@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.3.8
+#	Version: 0.4.0
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.3.8"
+sh_ver="0.4.0"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -130,7 +130,8 @@ Install_Shell(){
 		cp config.json user-config.json
 	fi
 
-	echo -e "${Info}依赖安装结束！"
+	echo -e "${Info}依赖安装结束！
+	如果返回错误显示requests无法安装，请运行脚本来更新requests"
 	sleep 5s
 	start_menu
 
@@ -145,7 +146,7 @@ ServerSetup_Shell(){
 	sed -i "2c NODE_ID = ${node_id}" userapiconfig.py
 
 	#设置API
-	sed -i '15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi' userapiconfig.py
+	sed -i "15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi" userapiconfig.py
 
 	#设置服务器IP
 	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
@@ -188,8 +189,7 @@ ServerSetup_Shell(){
 	fi
 	sed -i "28c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 
-	echo -e "${Info}服务器配置完成！
-	如果返回错误显示requests无法安装，请运行脚本来更新requests"
+	echo -e "${Info}服务器配置完成！"
 	sleep 5s
 	start_menu
 }
