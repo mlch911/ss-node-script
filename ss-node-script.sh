@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.3.7
+#	Version: 0.3.8
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.3.7"
+sh_ver="0.3.8"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -31,11 +31,12 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
  ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
  ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
  ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
- ${Green_font_prefix}3.${Font_color_suffix} 运行服务
- ${Green_font_prefix}4.${Font_color_suffix} 开放防火墙
- ${Green_font_prefix}5.${Font_color_suffix} bug修复：更新requests
- ${Green_font_prefix}6.${Font_color_suffix} 卸载脚本
- ${Green_font_prefix}7.${Font_color_suffix} 退出脚本
+ ${Green_font_prefix}3.${Font_color_suffix} 测试服务器
+ ${Green_font_prefix}4.${Font_color_suffix} 运行服务
+ ${Green_font_prefix}5.${Font_color_suffix} 开放防火墙
+ ${Green_font_prefix}6.${Font_color_suffix} bug修复：更新requests
+ ${Green_font_prefix}7.${Font_color_suffix} 卸载脚本
+ ${Green_font_prefix}8.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
 	# check_status
@@ -47,7 +48,7 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
 
 
 echo
-read -p " 请输入数字 [0-7]:" num
+read -p " 请输入数字 [0-8]:" num
 case "$num" in
 	0)
 	Update_Shell
@@ -59,23 +60,26 @@ case "$num" in
 	ServerSetup_Shell
 	;;
 	3)
-	Run_Shell
+	TestServer_Shell
 	;;
 	4)
-	Firewalld_Shell
+	Run_Shell
 	;;
 	5)
-	Update_requests
+	Firewalld_Shell
 	;;
 	6)
-	Uninstall_Shell
+	Update_requests
 	;;
 	7)
+	Uninstall_Shell
+	;;
+	8)
 	exit 1
 	;;
 	*)
 	clear
-	echo -e "${Error}:请输入正确数字 [0-7]"
+	echo -e "${Error}:请输入正确数字 [0-8]"
 	sleep 5s
 	start_menu
 	;;
@@ -187,6 +191,19 @@ ServerSetup_Shell(){
 	echo -e "${Info}服务器配置完成！
 	如果返回错误显示requests无法安装，请运行脚本来更新requests"
 	sleep 5s
+	start_menu
+}
+
+TestServer_Shell(){
+	cd /root/shadowsocks
+	echo -e "${Info} 按Ctrl+C停止运行！"
+	python server.py
+	echo -e " ${Info} 服务器测试完成！"
+	read -p "是否退出脚本 :(y/n)" run_input_b
+	if [ ${run_input_b} == "y" ] ;then
+		exit 1
+	fi
+	sleep 2s
 	start_menu
 }
 
