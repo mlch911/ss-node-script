@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.3.6
+#	Version: 0.3.7
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.3.6"
+sh_ver="0.3.7"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -24,7 +24,7 @@ Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
 start_menu(){
 clear
 echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  -- 壕琛小站 | ss.mluoc.tk --
+  -- 壕琛小站 | cc.mluoc.tk --
 
   第一次运行，请按照0->1->2->3->4的顺序执行脚本
 
@@ -33,8 +33,9 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
  ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
  ${Green_font_prefix}3.${Font_color_suffix} 运行服务
  ${Green_font_prefix}4.${Font_color_suffix} 开放防火墙
- ${Green_font_prefix}5.${Font_color_suffix} 卸载脚本
- ${Green_font_prefix}6.${Font_color_suffix} 退出脚本
+ ${Green_font_prefix}5.${Font_color_suffix} bug修复：更新requests
+ ${Green_font_prefix}6.${Font_color_suffix} 卸载脚本
+ ${Green_font_prefix}7.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
 	# check_status
@@ -46,7 +47,7 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
 
 
 echo
-read -p " 请输入数字 [0-6]:" num
+read -p " 请输入数字 [0-7]:" num
 case "$num" in
 	0)
 	Update_Shell
@@ -64,14 +65,17 @@ case "$num" in
 	Firewalld_Shell
 	;;
 	5)
-	Uninstall_Shell
+	Update_requests
 	;;
 	6)
+	Uninstall_Shell
+	;;
+	7)
 	exit 1
 	;;
 	*)
 	clear
-	echo -e "${Error}:请输入正确数字 [0-8]"
+	echo -e "${Error}:请输入正确数字 [0-7]"
 	sleep 5s
 	start_menu
 	;;
@@ -180,7 +184,8 @@ ServerSetup_Shell(){
 	fi
 	sed -i "28c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 
-	echo -e "${Info}服务器配置成功！"
+	echo -e "${Info}服务器配置完成！
+	如果返回错误显示requests无法安装，请运行脚本来更新requests"
 	sleep 5s
 	start_menu
 }
@@ -259,6 +264,28 @@ Firewalld_Shell(){
 	sleep 2s
 	start_menu
 
+}
+
+# 更新requests
+Update_requests(){
+	echo -e " ${Info} 强制更新requests组件"
+	read -p "是否更新 :(y/n)" run_input_a
+	if [ ${run_input_a} == "y" ] ;then
+		mkdir /usr/lib/python2.7/dist-packages/ && cd /usr/lib/python2.7/dist-packages/
+		echo "/usr/lib/python2.7/dist-packages/">>mypack.pth
+		git clone git://github.com/requests/requests.git
+		cd requests
+		python setup.py install
+		echo -e " ${Info} requests更新完成！"
+		read -p "是否退出脚本 :(y/n)" firewalld_input
+		if [ ${firewalld_input} == "y" ] ;then
+			exit 1
+		fi
+		sleep 2s
+		start_menu
+	else
+		start_menu
+	fi
 }
 
 
