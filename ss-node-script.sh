@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.3.5
+#	Version: 0.3.6
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.3.5"
+sh_ver="0.3.6"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -25,9 +25,9 @@ start_menu(){
 clear
 echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
   -- 壕琛小站 | ss.mluoc.tk --
-  
+
   第一次运行，请按照0->1->2->3->4的顺序执行脚本
-  
+
  ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
  ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
  ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
@@ -39,12 +39,12 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
 
 	# check_status
 	# if [[ ${kernel_status} == "noinstall" ]]; then
-		# echo -e " 当前状态: ${Green_font_prefix}未安装${Font_color_suffix} 加速内核 ${Red_font_prefix}请先安装内核${Font_color_suffix}"
+	# 	echo -e " 当前状态: ${Green_font_prefix}未安装${Font_color_suffix} 加速内核 ${Red_font_prefix}请先安装内核${Font_color_suffix}"
 	# else
-		# echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"	
+	# 	echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
 	# fi
-	
-	
+
+
 echo
 read -p " 请输入数字 [0-6]:" num
 case "$num" in
@@ -105,7 +105,7 @@ Update_Shell(){
 #安装依赖
 Install_Shell(){
 	if [[ "${release}" == "centos" ]]; then
-		cd ~ || read -p "${Error}依赖安装失败！按任意键返回主界面。" x
+		# cd ~ || read -p "${Error}依赖安装失败！按任意键返回主界面。" x
 		yum -y groupinstall "Development Tools"
 		wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz
 		tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16
@@ -121,24 +121,24 @@ Install_Shell(){
 		cp apiconfig.py userapiconfig.py
 		cp config.json user-config.json
 	fi
-	
+
 	echo -e "${Info}依赖安装结束！"
 	sleep 5s
 	start_menu
-	
+
 }
 
 #服务器配置
 ServerSetup_Shell(){
 	cd /root/shadowsocks
-	
+
 	#设置node_id
 	read -p " 请输入该节点的NODE_ID :" node_id
 	sed -i "2c NODE_ID = ${node_id}" userapiconfig.py
-	
+
 	#设置API
 	sed -i '15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi' userapiconfig.py
-	
+
 	#设置服务器IP
 	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
 	if  [ ${mysql_host_input} ] ;then
@@ -147,7 +147,7 @@ ServerSetup_Shell(){
 		mysql_host="127.0.0.1"
 	fi
 	sed -i "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
-	
+
 	#设置mysql服务器端口
 	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
 	mysql_port="3306"
@@ -155,7 +155,7 @@ ServerSetup_Shell(){
 		mysql_port=${mysql_port_input}
 	fi
 	sed -i "25c MYSQL_PORT = ${mysql_port}" userapiconfig.py
-	
+
 	#设置mysql服务器用户
 	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
 	mysql_user="sspanel"
@@ -163,7 +163,7 @@ ServerSetup_Shell(){
 		mysql_user=${mysql_user_input}
 	fi
 	sed -i "26c MYSQL_USER = '${mysql_user}'" userapiconfig.py
-	
+
 	#设置mysql服务器密码
 	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
 	mysql_pass="sspanel"
@@ -171,7 +171,7 @@ ServerSetup_Shell(){
 		mysql_pass=${mysql_pass_input}
 	fi
 	sed -i "27c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
-	
+
 	#设置mysql服务器数据库
 	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
 	mysql_db="sspanel"
@@ -179,7 +179,7 @@ ServerSetup_Shell(){
 		mysql_db=${mysql_db_input}
 	fi
 	sed -i "28c MYSQL_DB = '${mysql_db}'" userapiconfig.py
-	
+
 	echo -e "${Info}服务器配置成功！"
 	sleep 5s
 	start_menu
@@ -207,24 +207,50 @@ Run_Shell(){
 #开放防火墙
 Firewalld_Shell(){
 	clear
-	echo -e " 开放防火墙 :
- ${Green_font_prefix}1.${Font_color_suffix} 单端口
- ${Green_font_prefix}2.${Font_color_suffix} 端口段
-————————————————————————————————"
+	echo -e " 请选择防火墙类型 :
+	${Green_font_prefix}1.${Font_color_suffix} firewalld
+	${Green_font_prefix}2.${Font_color_suffix} iptables
+	————————————————————————————————"
 	read -p "请输入数字 :" num
 	if [ ${num} == "1" ] ;then
-		read -p " 开放防火墙端口为 :" port_a
-		firewall-cmd --permanent --zone=public --add-port=${port_a}/tcp
-		firewall-cmd --permanent --zone=public --add-port=${port_a}/udp
-		firewall-cmd --reload
+		echo -e " firewalld :
+		${Green_font_prefix}1.${Font_color_suffix} 单端口
+		${Green_font_prefix}2.${Font_color_suffix} 端口段
+		————————————————————————————————"
+		read -p "请输入数字 :" num
+		if [ ${num} == "1" ] ;then
+			read -p " 开放防火墙端口为 :" port_a
+			firewall-cmd --permanent --zone=public --add-port=${port_a}/tcp
+			firewall-cmd --permanent --zone=public --add-port=${port_a}/udp
+			firewall-cmd --reload
+		elif [ ${num} == "2" ] ;then
+			read -p " 开放防火墙端口从 :" port_b
+			read -p " 开放防火墙端口到 :" port_c
+			firewall-cmd --permanent --zone=public --add-port=${port_b}-${port_c}/tcp
+			firewall-cmd --permanent --zone=public --add-port=${port_b}-${port_c}/udp
+			firewall-cmd --reload
+		fi
 	elif [ ${num} == "2" ] ;then
-		read -p " 开放防火墙端口从 :" port_b
-		read -p " 开放防火墙端口到 :" port_c
-		firewall-cmd --permanent --zone=public --add-port=${port_b}-${port_c}/tcp
-		firewall-cmd --permanent --zone=public --add-port=${port_b}-${port_c}/udp
-		firewall-cmd --reload
+		echo -e " iptables :
+		${Green_font_prefix}1.${Font_color_suffix} 单端口
+		${Green_font_prefix}2.${Font_color_suffix} 端口段
+		————————————————————————————————"
+		read -p "请输入数字 :" num
+		if [ ${num} == "1" ] ;then
+			read -p " 开放防火墙端口为 :" port_a
+			iptables -A INPUT -p tcp --dport ${port_a} -j ACCEPT
+			iptables -A INPUT -p udp --dport ${port_a} -j ACCEPT
+			service iptables save
+			service iptables restart
+		elif [ ${num} == "2" ] ;then
+			read -p " 开放防火墙端口从 :" port_b
+			read -p " 开放防火墙端口到 :" port_c
+			iptables -A INPUT -p tcp --dport ${port_b}:${port_c} -j ACCEPT
+			iptables -A INPUT -p udp --dport ${port_b}:${port_c} -j ACCEPT
+			service iptables save
+			service iptables restart
+		fi
 	fi
-	
 	echo -e " ${Info} 开放防火墙运行完成！"
 	read -p "是否退出脚本 :(y/n)" firewalld_input
 	if [ ${firewalld_input} == "y" ] ;then
@@ -232,7 +258,7 @@ Firewalld_Shell(){
 	fi
 	sleep 2s
 	start_menu
-	
+
 }
 
 
@@ -347,7 +373,7 @@ check_version(){
 		# kernel_status="BBR"
 	# elif [[ ${kernel_version} = "3.10.0" || ${kernel_version} = "3.16.0" || ${kernel_version} = "3.2.0" || ${kernel_version} = "4.4.0" || ${kernel_version} = "3.13.0"  || ${kernel_version} = "2.6.32" ]]; then
 		# kernel_status="Lotserver"
-	# else 
+	# else
 		# kernel_status="noinstall"
 	# fi
 	# if [[ ${kernel_status} == "Lotserver" ]]; then
@@ -355,10 +381,10 @@ check_version(){
 			# run_status=`bash /appex/bin/serverSpeeder.sh status | grep "ServerSpeeder" | awk  '{print $3}'`
 			# if [[ ${run_status} = "running!" ]]; then
 				# run_status="启动成功"
-			# else 
+			# else
 				# run_status="启动失败"
 			# fi
-		# else 
+		# else
 			# run_status="未安装加速模块"
 		# fi
 	# elif [[ ${kernel_status} == "BBR" ]]; then
@@ -367,17 +393,17 @@ check_version(){
 			# run_status=`lsmod | grep "bbr" | awk '{print $1}'`
 			# if [[ ${run_status} == "tcp_bbr" ]]; then
 				# run_status="BBR启动成功"
-			# else 
+			# else
 				# run_status="BBR启动失败"
 			# fi
 		# elif [[ ${run_status} == "tsunami" ]]; then
 			# run_status=`lsmod | grep "tsunami" | awk '{print $1}'`
 			# if [[ ${run_status} == "tcp_tsunami" ]]; then
 				# run_status="BBR魔改版启动成功"
-			# else 
+			# else
 				# run_status="BBR魔改版启动失败"
 			# fi
-		# else 
+		# else
 			# run_status="未安装加速模块"
 		# fi
 	# fi
