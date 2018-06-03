@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.4.0
+#	Version: 0.4.1
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.4.0"
+sh_ver="0.4.1"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -34,7 +34,7 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
  ${Green_font_prefix}3.${Font_color_suffix} 测试服务器
  ${Green_font_prefix}4.${Font_color_suffix} 运行服务
  ${Green_font_prefix}5.${Font_color_suffix} 开放防火墙
- ${Green_font_prefix}6.${Font_color_suffix} bug修复：更新requests
+ ${Green_font_prefix}6.${Font_color_suffix} bug修复
  ${Green_font_prefix}7.${Font_color_suffix} 卸载脚本
  ${Green_font_prefix}8.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
@@ -69,7 +69,7 @@ case "$num" in
 	Firewalld_Shell
 	;;
 	6)
-	Update_requests
+	Bug_fix
 	;;
 	7)
 	Uninstall_Shell
@@ -284,25 +284,43 @@ Firewalld_Shell(){
 }
 
 # 更新requests
-Update_requests(){
-	echo -e " ${Info} 强制更新requests组件"
-	read -p "是否更新 :(y/n)" run_input_a
-	if [ ${run_input_a} == "y" ] ;then
-		mkdir /usr/lib/python2.7/dist-packages/ && cd /usr/lib/python2.7/dist-packages/
-		echo "/usr/lib/python2.7/dist-packages/">>mypack.pth
-		git clone git://github.com/requests/requests.git
-		cd requests
-		python setup.py install
-		echo -e " ${Info} requests更新完成！"
-		read -p "是否退出脚本 :(y/n)" firewalld_input
-		if [ ${firewalld_input} == "y" ] ;then
-			exit 1
+Bug_fix(){
+	clear
+	echo -e " 请选择Bug类型 :
+	${Green_font_prefix}1.${Font_color_suffix} 更新requests
+	${Green_font_prefix}2.${Font_color_suffix} git失败
+	————————————————————————————————"
+	read -p "请输入数字 :" num
+	if [ ${num} == "1" ] ;then
+		echo -e " ${Info} 强制更新requests组件"
+		read -p "是否更新 :(y/n)" run_input_a
+		if [ ${run_input_a} == "y" ] ;then
+			mkdir /usr/lib/python2.7/dist-packages/ && cd /usr/lib/python2.7/dist-packages/
+			echo "/usr/lib/python2.7/dist-packages/">>mypack.pth
+			git clone git://github.com/requests/requests.git
+			cd requests
+			python setup.py install
+			echo -e " ${Info} requests更新完成！"
+			read -p "是否退出脚本 :(y/n)" firewalld_input
+			if [ ${firewalld_input} == "y" ] ;then
+				exit 1
+			fi
+			sleep 2s
+			start_menu
+		else
+			start_menu
 		fi
-		sleep 2s
-		start_menu
-	else
-		start_menu
-	fi
+	elif [ ${num} == "2" ] ;then
+		yum update -y nss curl libcurl
+		echo -e " ${Info} nss更新完成！"
+		read -p "是否退出脚本 :(y/n)" firewalld_input
+			if [ ${firewalld_input} == "y" ] ;then
+				exit 1
+			fi
+			sleep 2s
+			start_menu
+		else
+			start_menu
 }
 
 
