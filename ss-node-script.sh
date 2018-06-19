@@ -25,7 +25,7 @@ start_menu(){
 clear
 sh_new_ver=$(wget --no-check-certificate -qO- "https://${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 if [[ ${sh_new_ver} != ${sh_ver} ]]; then
-	echo "${Red_font_prefix} 发现新版本，正在自动更新。。。${Font_color_suffix}"
+	echo "${Red_font_prefix}发现新版本，正在自动更新。。。${Font_color_suffix}"
 	Update_Shell
 fi
 echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
