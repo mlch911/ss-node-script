@@ -330,6 +330,7 @@ Supervisor_Shell(){
 		echo -e " 请选择 :
 		${Green_font_prefix}1.${Font_color_suffix} 安装supervisor守护进程
 		${Green_font_prefix}2.${Font_color_suffix} 检测ssr是否在运行
+		${Green_font_prefix}3.${Font_color_suffix} 退回主菜单
 		————————————————————————————————"
 		read -p "请输入数字 :" num
 		if [ ${num} == "1" ] ;then
@@ -349,6 +350,9 @@ Supervisor_Shell(){
 		if [ ${num} == "2" ] ;then
 			supervisorctl status ssr
 			sleep 2s
+			start_menu
+		fi
+		if [ ${num} == "3" ] ;then
 			start_menu
 		fi
 	fi
