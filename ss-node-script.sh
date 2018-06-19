@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.4.4
+#	Version: 0.4.5
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.4.4"
+sh_ver="0.4.5"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -334,10 +334,13 @@ Supervisor_Shell(){
 		————————————————————————————————"
 		read -p "请输入数字 :" num
 		if [ ${num} == "1" ] ;then
+			yum install -y epel-release
 			yum install -y supervisor
+			cd ~
 			wget -N --no-check-certificate https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master/ssr.conf
-			mv ./ssr.conf /etc/supervisord.d/ssr.conf
+			mv ~/ssr.conf /etc/supervisord.d/ssr.conf
 			supervisord
+			supervisorctl reload
 			supervisorctl status ssr
 			echo -e " ${Info} supervisor安装完成！"
 			read -p "是否退出脚本 :(y/n)" firewalld_input
