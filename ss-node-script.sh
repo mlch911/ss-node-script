@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.4.8
+#	Version: 0.4.9
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.4.8"
+sh_ver="0.4.9"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -345,20 +345,20 @@ Supervisor_Shell(){
 			cd ~
 			wget -N --no-check-certificate https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master/ssr.conf
 			mv ~/ssr.conf /etc/supervisord.d/ssr.conf
-			sed -i "129c files = supervisord.d/*.ini /etc/supervisord.d/*.conf"
+			sed -i "129c files = supervisord.d/*.ini /etc/supervisord.d/*.conf" /etc/supervisord.conf
 			wget -N --no-check-certificate https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master/supervisord.service
 			mv ~/supervisord.service /lib/systemd/system/supervisord.service
-			sed -i "21c nodaemon=true              ; (start in foreground if true;default false)"
+			sed -i "21c nodaemon=true              ; (start in foreground if true;default false)" /lib/systemd/system/supervisord.service
 			systemctl enable supervisord.service
 			read -p "是否开启web端 :(y/n)" web
 			if [ ${web} == "y" ] ;then
-				sed -i "10c [inet_http_server]         ; inet (TCP) server disabled by default"
+				sed -i "10c [inet_http_server]         ; inet (TCP) server disabled by default" /etc/supervisord.d/ssr.conf
 				read -p "请输入web地址(ip:port，默认为127.0.0.1:9001) :" http_address_input
 				http_address = "127.0.0.1:9001"
 				if [ ${http_address} ] ;then
 					http_address = http_address_input
 				fi
-				sed -i "11c port=${http_address}        ; (ip_address:port specifier, *:port for all iface)"
+				sed -i "11c port=${http_address}        ; (ip_address:port specifier, *:port for all iface)" /etc/supervisord.d/ssr.conf
 
 				read -p "是否开启web端登陆验证(强烈建议开启) :(y/n)" auth
 				if [ ${auth} == "y" ] ;then
@@ -367,13 +367,13 @@ Supervisor_Shell(){
 					if [ ${username_input} ] ;then
 						username = username_input
 					fi
-					sed -i "12c username=${username}              ; (default is no username (open server))"
+					sed -i "12c username=${username}              ; (default is no username (open server))" /etc/supervisord.d/ssr.conf
 					read -p "请输入登陆密码(默认为123) :" pass_input
 					pass = "123"
 					if [ ${pass_input} ] ;then
 						pass = pass_input
 					fi
-					sed -i "13c password=${pass}               ; (default is no password (open server))"
+					sed -i "13c password=${pass}               ; (default is no password (open server))" /etc/supervisord.d/ssr.conf
 				fi
 			fi
 			systemctl start supervisor.service
