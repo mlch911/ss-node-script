@@ -352,13 +352,13 @@ Supervisor_Shell(){
 			systemctl enable supervisord.service
 			read -p "是否开启web端 :(y/n)" web
 			if [ ${web} == "y" ] ;then
-				sed -i "10c [inet_http_server]         ; inet (TCP) server disabled by default" /etc/supervisord.d/ssr.conf
+				sed -i "10c [inet_http_server]         ; inet (TCP) server disabled by default" /etc/supervisord.conf
 				read -p "请输入web地址(ip:port，默认为127.0.0.1:9001) :" http_address_input
 				http_address="127.0.0.1:9001"
 				if [ ${http_address} ] ;then
 					http_address=http_address_input
 				fi
-				sed -i "11c port=${http_address}        ; (ip_address:port specifier, *:port for all iface)" /etc/supervisord.d/ssr.conf
+				sed -i "11c port=${http_address}        ; (ip_address:port specifier, *:port for all iface)" /etc/supervisord.conf
 
 				read -p "是否开启web端登陆验证(强烈建议开启) :(y/n)" auth
 				if [ ${auth} == "y" ] ;then
@@ -367,13 +367,13 @@ Supervisor_Shell(){
 					if [ ${username_input} ] ;then
 						username=username_input
 					fi
-					sed -i "12c username=${username}              ; (default is no username (open server))" /etc/supervisord.d/ssr.conf
+					sed -i "12c username=${username}              ; (default is no username (open server))" /etc/supervisord.conf
 					read -p "请输入登陆密码(默认为123) :" pass_input
 					pass="123"
 					if [ ${pass_input} ] ;then
 						pass=pass_input
 					fi
-					sed -i "13c password=${pass}               ; (default is no password (open server))" /etc/supervisord.d/ssr.conf
+					sed -i "13c password=${pass}               ; (default is no password (open server))" /etc/supervisord.conf
 				fi
 			fi
 			supervisord
