@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.4.9
+#	Version: 0.5.0
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.4.9"
+sh_ver="0.5.0"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -354,18 +354,18 @@ Supervisor_Shell(){
 			if [ ${web} == "y" ] ;then
 				sed -i "10c [inet_http_server]         ; inet (TCP) server disabled by default" /etc/supervisord.d/ssr.conf
 				read -p "请输入web地址(ip:port，默认为127.0.0.1:9001) :" http_address_input
-				http_address = "127.0.0.1:9001"
+				http_address="127.0.0.1:9001"
 				if [ ${http_address} ] ;then
-					http_address = http_address_input
+					http_address=http_address_input
 				fi
 				sed -i "11c port=${http_address}        ; (ip_address:port specifier, *:port for all iface)" /etc/supervisord.d/ssr.conf
 
 				read -p "是否开启web端登陆验证(强烈建议开启) :(y/n)" auth
 				if [ ${auth} == "y" ] ;then
 					read -p "请输入登陆名(默认为user) :" username_input
-					username = "user"
+					username="user"
 					if [ ${username_input} ] ;then
-						username = username_input
+						username=username_input
 					fi
 					sed -i "12c username=${username}              ; (default is no username (open server))" /etc/supervisord.d/ssr.conf
 					read -p "请输入登陆密码(默认为123) :" pass_input
@@ -376,6 +376,7 @@ Supervisor_Shell(){
 					sed -i "13c password=${pass}               ; (default is no password (open server))" /etc/supervisord.d/ssr.conf
 				fi
 			fi
+			supervisord
 			systemctl start supervisor.service
 			supervisorctl reload
 			supervisorctl status ssr
