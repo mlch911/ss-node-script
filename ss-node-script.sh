@@ -369,9 +369,9 @@ Supervisor_Shell(){
 					fi
 					sed -i "12c username=${username}              ; (default is no username (open server))" /etc/supervisord.d/ssr.conf
 					read -p "请输入登陆密码(默认为123) :" pass_input
-					pass = "123"
+					pass="123"
 					if [ ${pass_input} ] ;then
-						pass = pass_input
+						pass=pass_input
 					fi
 					sed -i "13c password=${pass}               ; (default is no password (open server))" /etc/supervisord.d/ssr.conf
 				fi
