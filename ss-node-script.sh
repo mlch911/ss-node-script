@@ -1,49 +1,49 @@
-ï»¿#!/usr/bin/env bash
+#!/usr/bin/env bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
 #=================================================
 #	System Required: CentOS 7+
-#	Description: sspanelåç«¯ä¸€é”®å®‰è£…è„šæœ¬
-#	Version: 0.5.1
-#	Author: å£•ç›
+#	Description: sspanelºó¶ËÒ»¼ü°²×°½Å±¾
+#	Version: 0.5.2
+#	Author: º¾è¡
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.5.1"
+sh_ver="0.5.2"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
-Info="${Green_font_prefix}[ä¿¡æ¯]${Font_color_suffix}"
-Error="${Red_font_prefix}[é”™è¯¯]${Font_color_suffix}"
-Tip="${Green_font_prefix}[æ³¨æ„]${Font_color_suffix}"
+Info="${Green_font_prefix}[ĞÅÏ¢]${Font_color_suffix}"
+Error="${Red_font_prefix}[´íÎó]${Font_color_suffix}"
+Tip="${Green_font_prefix}[×¢Òâ]${Font_color_suffix}"
 
 
 
-#å¼€å§‹èœå•
+#¿ªÊ¼²Ëµ¥
 start_menu(){
 clear
-echo && echo -e " sspanelåç«¯ ä¸€é”®å®‰è£…ç®¡ç†è„šæœ¬ ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  -- å£•ç›å°ç«™ | cc.mluoc.tk --
+echo && echo -e " sspanelºó¶Ë Ò»¼ü°²×°¹ÜÀí½Å±¾ ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
+  -- º¾è¡Ğ¡Õ¾ | cc.mluoc.tk --
 
-  ç¬¬ä¸€æ¬¡è¿è¡Œï¼Œè¯·æŒ‰ç…§0->1->2->3->4çš„é¡ºåºæ‰§è¡Œè„šæœ¬
+  µÚÒ»´ÎÔËĞĞ£¬Çë°´ÕÕ0->1->2->3->4µÄË³ĞòÖ´ĞĞ½Å±¾
 
- ${Green_font_prefix}0.${Font_color_suffix} å‡çº§è„šæœ¬
- ${Green_font_prefix}1.${Font_color_suffix} å®‰è£…ä¾èµ–(åªéœ€æ‰§è¡Œä¸€æ¬¡ï¼Œè‹¥é‡å¤æ‰§è¡Œä¼šè¦†ç›–åŸæœ‰é…ç½®)
- ${Green_font_prefix}2.${Font_color_suffix} æœåŠ¡å™¨é…ç½®
- ${Green_font_prefix}3.${Font_color_suffix} æµ‹è¯•æœåŠ¡å™¨
- ${Green_font_prefix}4.${Font_color_suffix} è¿è¡ŒæœåŠ¡
- ${Green_font_prefix}5.${Font_color_suffix} å¼€æ”¾é˜²ç«å¢™
- ${Green_font_prefix}6.${Font_color_suffix} bugä¿®å¤
- ${Green_font_prefix}7.${Font_color_suffix} å®‰è£…supervisorå®ˆæŠ¤è¿›ç¨‹
- ${Green_font_prefix}8.${Font_color_suffix} é€€å‡ºè„šæœ¬
-â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”" && echo
+ ${Green_font_prefix}0.${Font_color_suffix} Éı¼¶½Å±¾
+ ${Green_font_prefix}1.${Font_color_suffix} °²×°ÒÀÀµ(Ö»ĞèÖ´ĞĞÒ»´Î£¬ÈôÖØ¸´Ö´ĞĞ»á¸²¸ÇÔ­ÓĞÅäÖÃ)
+ ${Green_font_prefix}2.${Font_color_suffix} ·şÎñÆ÷ÅäÖÃ
+ ${Green_font_prefix}3.${Font_color_suffix} ²âÊÔ·şÎñÆ÷
+ ${Green_font_prefix}4.${Font_color_suffix} ÔËĞĞ·şÎñ
+ ${Green_font_prefix}5.${Font_color_suffix} ¿ª·Å·À»ğÇ½
+ ${Green_font_prefix}6.${Font_color_suffix} bugĞŞ¸´
+ ${Green_font_prefix}7.${Font_color_suffix} °²×°supervisorÊØ»¤½ø³Ì
+ ${Green_font_prefix}8.${Font_color_suffix} ÍË³ö½Å±¾
+¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª" && echo
 
 	# check_status
 	# if [[ ${kernel_status} == "noinstall" ]]; then
-	# 	echo -e " å½“å‰çŠ¶æ€: ${Green_font_prefix}æœªå®‰è£…${Font_color_suffix} åŠ é€Ÿå†…æ ¸ ${Red_font_prefix}è¯·å…ˆå®‰è£…å†…æ ¸${Font_color_suffix}"
+	# 	echo -e " µ±Ç°×´Ì¬: ${Green_font_prefix}Î´°²×°${Font_color_suffix} ¼ÓËÙÄÚºË ${Red_font_prefix}ÇëÏÈ°²×°ÄÚºË${Font_color_suffix}"
 	# else
-	# 	echo -e " å½“å‰çŠ¶æ€: ${Green_font_prefix}å·²å®‰è£…${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} åŠ é€Ÿå†…æ ¸ , ${Green_font_prefix}${run_status}${Font_color_suffix}"
+	# 	echo -e " µ±Ç°×´Ì¬: ${Green_font_prefix}ÒÑ°²×°${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} ¼ÓËÙÄÚºË , ${Green_font_prefix}${run_status}${Font_color_suffix}"
 	# fi
 
 	sh_new_ver=$(wget --no-check-certificate -qO- "https://${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
@@ -53,7 +53,7 @@ echo && echo -e " sspanelåç«¯ ä¸€é”®å®‰è£…ç®¡ç†è„šæœ¬ ${Red_font_prefix}[v${s
 
 
 echo
-read -p " è¯·è¾“å…¥æ•°å­— [0-8]:" num
+read -p " ÇëÊäÈëÊı×Ö [0-8]:" num
 case "$num" in
 	0)
 	Update_Shell
@@ -84,41 +84,41 @@ case "$num" in
 	;;
 	*)
 	clear
-	echo -e "${Error}:è¯·è¾“å…¥æ­£ç¡®æ•°å­— [0-8]"
+	echo -e "${Error}:ÇëÊäÈëÕıÈ·Êı×Ö [0-8]"
 	sleep 5s
 	start_menu
 	;;
 esac
 }
 
-#æ›´æ–°è„šæœ¬
+#¸üĞÂ½Å±¾
 Update_Shell(){
-	echo -e "å½“å‰ç‰ˆæœ¬ä¸º [ ${sh_ver} ]ï¼Œå¼€å§‹æ£€æµ‹æœ€æ–°ç‰ˆæœ¬..."
+	echo -e "µ±Ç°°æ±¾Îª [ ${sh_ver} ]£¬¿ªÊ¼¼ì²â×îĞÂ°æ±¾..."
 	sh_new_ver=$(wget --no-check-certificate -qO- "https://${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
-	[[ -z ${sh_new_ver} ]] && echo -e "${Error} æ£€æµ‹æœ€æ–°ç‰ˆæœ¬å¤±è´¥ !" && sleep 2s && start_menu
+	[[ -z ${sh_new_ver} ]] && echo -e "${Error} ¼ì²â×îĞÂ°æ±¾Ê§°Ü !" && sleep 2s && start_menu
 	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
-		echo -e "å‘ç°æ–°ç‰ˆæœ¬[ ${sh_new_ver} ]ï¼Œæ˜¯å¦æ›´æ–°ï¼Ÿ[Y/n]"
-		read -p "(é»˜è®¤: y):" yn
+		echo -e "·¢ÏÖĞÂ°æ±¾[ ${sh_new_ver} ]£¬ÊÇ·ñ¸üĞÂ£¿[Y/n]"
+		read -p "(Ä¬ÈÏ: y):" yn
 		[[ -z "${yn}" ]] && yn="y"
 		if [[ ${yn} == [Yy] ]]; then
 			wget -N --no-check-certificate http://${github}/ss-node-script.sh && chmod +x ss-node-script.sh
-			echo -e "è„šæœ¬å·²æ›´æ–°ä¸ºæœ€æ–°ç‰ˆæœ¬[ ${sh_new_ver} ] ! ç¨ç­‰ç‰‡åˆ»ï¼Œé©¬ä¸Šè¿è¡Œ !"
+			echo -e "½Å±¾ÒÑ¸üĞÂÎª×îĞÂ°æ±¾[ ${sh_new_ver} ] ! ÉÔµÈÆ¬¿Ì£¬ÂíÉÏÔËĞĞ !"
 			bash ss-node-script.sh
 		else
-			echo && echo "	å·²å–æ¶ˆ..." && echo
+			echo && echo "	ÒÑÈ¡Ïû..." && echo
 			start_menu
 		fi
 	else
-		echo -e "å½“å‰å·²æ˜¯æœ€æ–°ç‰ˆæœ¬[ ${sh_new_ver} ] !"
+		echo -e "µ±Ç°ÒÑÊÇ×îĞÂ°æ±¾[ ${sh_new_ver} ] !"
 		sleep 2s
 		start_menu
 	fi
 }
 
-#å®‰è£…ä¾èµ–
+#°²×°ÒÀÀµ
 Install_Shell(){
 	if [[ "${release}" == "centos" ]]; then
-		# cd ~ || read -p "${Error}ä¾èµ–å®‰è£…å¤±è´¥ï¼æŒ‰ä»»æ„é”®è¿”å›ä¸»ç•Œé¢ã€‚" x
+		# cd ~ || read -p "${Error}ÒÀÀµ°²×°Ê§°Ü£¡°´ÈÎÒâ¼ü·µ»ØÖ÷½çÃæ¡£" x
 		yum -y groupinstall "Development Tools"
 		wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz
 		tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16
@@ -135,26 +135,26 @@ Install_Shell(){
 		cp config.json user-config.json
 	fi
 
-	echo -e "${Info}ä¾èµ–å®‰è£…ç»“æŸï¼
-	å¦‚æœè¿”å›é”™è¯¯æ˜¾ç¤ºrequestsæ— æ³•å®‰è£…ï¼Œè¯·è¿è¡Œè„šæœ¬æ¥æ›´æ–°requests"
+	echo -e "${Info}ÒÀÀµ°²×°½áÊø£¡
+	Èç¹û·µ»Ø´íÎóÏÔÊ¾requestsÎŞ·¨°²×°£¬ÇëÔËĞĞ½Å±¾À´¸üĞÂrequests"
 	sleep 5s
 	start_menu
 
 }
 
-#æœåŠ¡å™¨é…ç½®
+#·şÎñÆ÷ÅäÖÃ
 ServerSetup_Shell(){
 	cd /root/shadowsocks
 
-	#è®¾ç½®node_id
-	read -p " è¯·è¾“å…¥è¯¥èŠ‚ç‚¹çš„NODE_ID :" node_id
+	#ÉèÖÃnode_id
+	read -p " ÇëÊäÈë¸Ã½ÚµãµÄNODE_ID :" node_id
 	sed -i "2c NODE_ID = ${node_id}" userapiconfig.py
 
-	#è®¾ç½®API
+	#ÉèÖÃAPI
 	sed -i "15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi" userapiconfig.py
 
-	#è®¾ç½®æœåŠ¡å™¨IP
-	read -p ' è¯·è¾“å…¥sspanelæœåŠ¡å™¨çš„IP(ä¸è¾“å…¥åˆ™ä¸º127.0.0.1) :' mysql_host_input
+	#ÉèÖÃ·şÎñÆ÷IP
+	read -p ' ÇëÊäÈësspanel·şÎñÆ÷µÄIP(²»ÊäÈëÔòÎª127.0.0.1) :' mysql_host_input
 	if  [ ${mysql_host_input} ] ;then
 		mysql_host=${mysql_host_input}
 	else
@@ -162,49 +162,49 @@ ServerSetup_Shell(){
 	fi
 	sed -i "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
 
-	#è®¾ç½®mysqlæœåŠ¡å™¨ç«¯å£
-	read -p ' è¯·è¾“å…¥sspanelæœåŠ¡å™¨çš„æ•°æ®åº“ç«¯å£å·(ä¸è¾“å…¥åˆ™ä¸º3306) :' mysql_port_input
+	#ÉèÖÃmysql·şÎñÆ÷¶Ë¿Ú
+	read -p ' ÇëÊäÈësspanel·şÎñÆ÷µÄÊı¾İ¿â¶Ë¿ÚºÅ(²»ÊäÈëÔòÎª3306) :' mysql_port_input
 	mysql_port="3306"
 	if  [ ${mysql_port_input} ] ;then
 		mysql_port=${mysql_port_input}
 	fi
 	sed -i "25c MYSQL_PORT = ${mysql_port}" userapiconfig.py
 
-	#è®¾ç½®mysqlæœåŠ¡å™¨ç”¨æˆ·
-	read -p ' è¯·è¾“å…¥sspanelæœåŠ¡å™¨çš„æ•°æ®åº“ç”¨æˆ·å(ä¸è¾“å…¥åˆ™ä¸ºsspanel) :' mysql_user_input
+	#ÉèÖÃmysql·şÎñÆ÷ÓÃ»§
+	read -p ' ÇëÊäÈësspanel·şÎñÆ÷µÄÊı¾İ¿âÓÃ»§Ãû(²»ÊäÈëÔòÎªsspanel) :' mysql_user_input
 	mysql_user="sspanel"
 	if  [ ${mysql_user_input} ] ;then
 		mysql_user=${mysql_user_input}
 	fi
 	sed -i "26c MYSQL_USER = '${mysql_user}'" userapiconfig.py
 
-	#è®¾ç½®mysqlæœåŠ¡å™¨å¯†ç 
-	read -p ' è¯·è¾“å…¥sspanelæœåŠ¡å™¨çš„æ•°æ®åº“å¯†ç (ä¸è¾“å…¥åˆ™ä¸ºsspanel) :' mysql_pass_input
+	#ÉèÖÃmysql·şÎñÆ÷ÃÜÂë
+	read -p ' ÇëÊäÈësspanel·şÎñÆ÷µÄÊı¾İ¿âÃÜÂë(²»ÊäÈëÔòÎªsspanel) :' mysql_pass_input
 	mysql_pass="sspanel"
 	if  [ ${mysql_pass_input} ] ;then
 		mysql_pass=${mysql_pass_input}
 	fi
 	sed -i "27c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
 
-	#è®¾ç½®mysqlæœåŠ¡å™¨æ•°æ®åº“
-	read -p ' è¯·è¾“å…¥sspanelæœåŠ¡å™¨çš„æ•°æ®åº“åç§°(ä¸è¾“å…¥åˆ™ä¸ºsspanel) :' mysql_db_input
+	#ÉèÖÃmysql·şÎñÆ÷Êı¾İ¿â
+	read -p ' ÇëÊäÈësspanel·şÎñÆ÷µÄÊı¾İ¿âÃû³Æ(²»ÊäÈëÔòÎªsspanel) :' mysql_db_input
 	mysql_db="sspanel"
 	if  [ ${mysql_db_input} ] ;then
 		mysql_db=${mysql_db_input}
 	fi
 	sed -i "28c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 
-	echo -e "${Info}æœåŠ¡å™¨é…ç½®å®Œæˆï¼"
+	echo -e "${Info}·şÎñÆ÷ÅäÖÃÍê³É£¡"
 	sleep 5s
 	start_menu
 }
 
 TestServer_Shell(){
 	cd /root/shadowsocks
-	echo -e "${Info} æŒ‰Ctrl+Cåœæ­¢è¿è¡Œï¼"
+	echo -e "${Info} °´Ctrl+CÍ£Ö¹ÔËĞĞ£¡"
 	python server.py
-	echo -e " ${Info} æœåŠ¡å™¨æµ‹è¯•å®Œæˆï¼"
-	read -p "æ˜¯å¦é€€å‡ºè„šæœ¬ :(y/n)" run_input_b
+	echo -e " ${Info} ·şÎñÆ÷²âÊÔÍê³É£¡"
+	read -p "ÊÇ·ñÍË³ö½Å±¾ :(y/n)" run_input_b
 	if [ ${run_input_b} == "y" ] ;then
 		exit 1
 	fi
@@ -212,15 +212,15 @@ TestServer_Shell(){
 	start_menu
 }
 
-#è¿è¡ŒæœåŠ¡
+#ÔËĞĞ·şÎñ
 Run_Shell(){
 	cd /root/shadowsocks
-	echo -e " ${Info} å»ºè®®æ‰§è¡Œpython server.pyè¿›è¡Œæµ‹è¯•åå†è¿è¡ŒæœåŠ¡"
-	read -p "æ˜¯å¦è¿è¡ŒæœåŠ¡ :(y/n)" run_input_a
+	echo -e " ${Info} ½¨ÒéÖ´ĞĞpython server.py½øĞĞ²âÊÔºóÔÙÔËĞĞ·şÎñ"
+	read -p "ÊÇ·ñÔËĞĞ·şÎñ :(y/n)" run_input_a
 	if [ ${run_input_a} == "y" ] ;then
 		/root/shadowsocks/run.sh
-		echo -e " ${Info} sspanelåç«¯è¿è¡ŒæˆåŠŸï¼"
-		read -p "æ˜¯å¦é€€å‡ºè„šæœ¬ :(y/n)" run_input_b
+		echo -e " ${Info} sspanelºó¶ËÔËĞĞ³É¹¦£¡"
+		read -p "ÊÇ·ñÍË³ö½Å±¾ :(y/n)" run_input_b
 		if [ ${run_input_b} == "y" ] ;then
 			exit 1
 		fi
@@ -231,55 +231,55 @@ Run_Shell(){
 	fi
 }
 
-#å¼€æ”¾é˜²ç«å¢™
+#¿ª·Å·À»ğÇ½
 Firewalld_Shell(){
 	clear
-	echo -e " è¯·é€‰æ‹©é˜²ç«å¢™ç±»å‹ :
+	echo -e " ÇëÑ¡Ôñ·À»ğÇ½ÀàĞÍ :
 	${Green_font_prefix}1.${Font_color_suffix} firewalld
 	${Green_font_prefix}2.${Font_color_suffix} iptables
-	â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”"
-	read -p "è¯·è¾“å…¥æ•°å­— :" num
+	¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª"
+	read -p "ÇëÊäÈëÊı×Ö :" num
 	if [ ${num} == "1" ] ;then
 		echo -e " firewalld :
-		${Green_font_prefix}1.${Font_color_suffix} å•ç«¯å£
-		${Green_font_prefix}2.${Font_color_suffix} ç«¯å£æ®µ
-		â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”"
-		read -p "è¯·è¾“å…¥æ•°å­— :" num
+		${Green_font_prefix}1.${Font_color_suffix} µ¥¶Ë¿Ú
+		${Green_font_prefix}2.${Font_color_suffix} ¶Ë¿Ú¶Î
+		¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª"
+		read -p "ÇëÊäÈëÊı×Ö :" num
 		if [ ${num} == "1" ] ;then
-			read -p " å¼€æ”¾é˜²ç«å¢™ç«¯å£ä¸º :" port_a
+			read -p " ¿ª·Å·À»ğÇ½¶Ë¿ÚÎª :" port_a
 			firewall-cmd --permanent --zone=public --add-port=${port_a}/tcp
 			firewall-cmd --permanent --zone=public --add-port=${port_a}/udp
 			firewall-cmd --reload
 		elif [ ${num} == "2" ] ;then
-			read -p " å¼€æ”¾é˜²ç«å¢™ç«¯å£ä» :" port_b
-			read -p " å¼€æ”¾é˜²ç«å¢™ç«¯å£åˆ° :" port_c
+			read -p " ¿ª·Å·À»ğÇ½¶Ë¿Ú´Ó :" port_b
+			read -p " ¿ª·Å·À»ğÇ½¶Ë¿Úµ½ :" port_c
 			firewall-cmd --permanent --zone=public --add-port=${port_b}-${port_c}/tcp
 			firewall-cmd --permanent --zone=public --add-port=${port_b}-${port_c}/udp
 			firewall-cmd --reload
 		fi
 	elif [ ${num} == "2" ] ;then
 		echo -e " iptables :
-		${Green_font_prefix}1.${Font_color_suffix} å•ç«¯å£
-		${Green_font_prefix}2.${Font_color_suffix} ç«¯å£æ®µ
-		â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”"
-		read -p "è¯·è¾“å…¥æ•°å­— :" num
+		${Green_font_prefix}1.${Font_color_suffix} µ¥¶Ë¿Ú
+		${Green_font_prefix}2.${Font_color_suffix} ¶Ë¿Ú¶Î
+		¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª"
+		read -p "ÇëÊäÈëÊı×Ö :" num
 		if [ ${num} == "1" ] ;then
-			read -p " å¼€æ”¾é˜²ç«å¢™ç«¯å£ä¸º :" port_a
+			read -p " ¿ª·Å·À»ğÇ½¶Ë¿ÚÎª :" port_a
 			iptables -A INPUT -p tcp --dport ${port_a} -j ACCEPT
 			iptables -A INPUT -p udp --dport ${port_a} -j ACCEPT
 			service iptables save
 			service iptables restart
 		elif [ ${num} == "2" ] ;then
-			read -p " å¼€æ”¾é˜²ç«å¢™ç«¯å£ä» :" port_b
-			read -p " å¼€æ”¾é˜²ç«å¢™ç«¯å£åˆ° :" port_c
+			read -p " ¿ª·Å·À»ğÇ½¶Ë¿Ú´Ó :" port_b
+			read -p " ¿ª·Å·À»ğÇ½¶Ë¿Úµ½ :" port_c
 			iptables -A INPUT -p tcp --dport ${port_b}:${port_c} -j ACCEPT
 			iptables -A INPUT -p udp --dport ${port_b}:${port_c} -j ACCEPT
 			service iptables save
 			service iptables restart
 		fi
 	fi
-	echo -e " ${Info} å¼€æ”¾é˜²ç«å¢™è¿è¡Œå®Œæˆï¼"
-	read -p "æ˜¯å¦é€€å‡ºè„šæœ¬ :(y/n)" firewalld_input
+	echo -e " ${Info} ¿ª·Å·À»ğÇ½ÔËĞĞÍê³É£¡"
+	read -p "ÊÇ·ñÍË³ö½Å±¾ :(y/n)" firewalld_input
 	if [ ${firewalld_input} == "y" ] ;then
 		exit 1
 	fi
@@ -288,25 +288,25 @@ Firewalld_Shell(){
 
 }
 
-# æ›´æ–°requests
+# ¸üĞÂrequests
 Bug_fix(){
 	clear
-	echo -e " è¯·é€‰æ‹©Bugç±»å‹ :
-	${Green_font_prefix}1.${Font_color_suffix} æ›´æ–°requests
-	${Green_font_prefix}2.${Font_color_suffix} gitå¤±è´¥
-	â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”"
-	read -p "è¯·è¾“å…¥æ•°å­— :" num
+	echo -e " ÇëÑ¡ÔñBugÀàĞÍ :
+	${Green_font_prefix}1.${Font_color_suffix} ¸üĞÂrequests
+	${Green_font_prefix}2.${Font_color_suffix} gitÊ§°Ü
+	¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª"
+	read -p "ÇëÊäÈëÊı×Ö :" num
 	if [ ${num} == "1" ] ;then
-		echo -e " ${Info} å¼ºåˆ¶æ›´æ–°requestsç»„ä»¶"
-		read -p "æ˜¯å¦æ›´æ–° :(y/n)" run_input_a
+		echo -e " ${Info} Ç¿ÖÆ¸üĞÂrequests×é¼ş"
+		read -p "ÊÇ·ñ¸üĞÂ :(y/n)" run_input_a
 		if [ ${run_input_a} == "y" ] ;then
 			mkdir /usr/lib/python2.7/dist-packages/ && cd /usr/lib/python2.7/dist-packages/
 			echo "/usr/lib/python2.7/dist-packages/">>mypack.pth
 			git clone git://github.com/requests/requests.git
 			cd requests
 			python setup.py install
-			echo -e " ${Info} requestsæ›´æ–°å®Œæˆï¼"
-			read -p "æ˜¯å¦é€€å‡ºè„šæœ¬ :(y/n)" firewalld_input
+			echo -e " ${Info} requests¸üĞÂÍê³É£¡"
+			read -p "ÊÇ·ñÍË³ö½Å±¾ :(y/n)" firewalld_input
 			if [ ${firewalld_input} == "y" ] ;then
 				exit 1
 			fi
@@ -317,8 +317,8 @@ Bug_fix(){
 		fi
 	elif [ ${num} == "2" ] ;then
 		yum update -y nss curl libcurl
-		echo -e " ${Info} nssæ›´æ–°å®Œæˆï¼"
-		read -p "æ˜¯å¦é€€å‡ºè„šæœ¬ :(y/n)" firewalld_input
+		echo -e " ${Info} nss¸üĞÂÍê³É£¡"
+		read -p "ÊÇ·ñÍË³ö½Å±¾ :(y/n)" firewalld_input
 			if [ ${firewalld_input} == "y" ] ;then
 				exit 1
 			fi
@@ -329,15 +329,52 @@ Bug_fix(){
 	start_menu
 }
 
+Screen_Shell(){
+	if [[ "${release}" == "centos" ]]; then
+		clear
+		echo -e " ÇëÑ¡Ôñ :
+		${Green_font_prefix}1.${Font_color_suffix} °²×°²¢Æô¶¯screenÊØ»¤½ø³Ì
+		${Green_font_prefix}2.${Font_color_suffix} Æô¶¯screenÊØ»¤½ø³Ì
+		${Green_font_prefix}3.${Font_color_suffix} ÍË»ØÖ÷²Ëµ¥
+		¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª"
+		read -p "ÇëÊäÈëÊı×Ö :" num
+		if [ ${num} == "1" ] ;then
+			yum -y install screen
+			cd /root
+			wget -N --no-check-certificate https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master/ssr_start.sh
+			bash /root/ssr_start.sh
+			echo -e " ${Info} screenÆô¶¯Íê³É£¡"
+			read -p "ÊÇ·ñÍË³ö½Å±¾ :(y/n)" firewalld_input
+			if [ ${firewalld_input} == "y" ] ;then
+				exit 1
+			fi
+			sleep 2s
+			start_menu
+		if [ ${num} == "2" ] ;then
+			bash /root/ssr_start.sh
+			echo -e " ${Info} screenÆô¶¯Íê³É£¡"
+			read -p "ÊÇ·ñÍË³ö½Å±¾ :(y/n)" firewalld_input
+			if [ ${firewalld_input} == "y" ] ;then
+				exit 1
+			fi
+			sleep 2s
+			start_menu
+		fi
+		if [ ${num} == "3" ] ;then
+			start_menu
+		fi
+	fi
+}
+
 Supervisor_Shell(){
 	if [[ "${release}" == "centos" ]]; then
 		clear
-		echo -e " è¯·é€‰æ‹© :
-		${Green_font_prefix}1.${Font_color_suffix} å®‰è£…supervisorå®ˆæŠ¤è¿›ç¨‹
-		${Green_font_prefix}2.${Font_color_suffix} æ£€æµ‹ssræ˜¯å¦åœ¨è¿è¡Œ
-		${Green_font_prefix}3.${Font_color_suffix} é€€å›ä¸»èœå•
-		â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”"
-		read -p "è¯·è¾“å…¥æ•°å­— :" num
+		echo -e " ÇëÑ¡Ôñ :
+		${Green_font_prefix}1.${Font_color_suffix} °²×°supervisorÊØ»¤½ø³Ì
+		${Green_font_prefix}2.${Font_color_suffix} ¼ì²âssrÊÇ·ñÔÚÔËĞĞ
+		${Green_font_prefix}3.${Font_color_suffix} ÍË»ØÖ÷²Ëµ¥
+		¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª"
+		read -p "ÇëÊäÈëÊı×Ö :" num
 		if [ ${num} == "1" ] ;then
 			/root/shadowsocks/stop.sh
 			yum install -y epel-release
@@ -350,10 +387,10 @@ Supervisor_Shell(){
 			mv ~/supervisord.service /lib/systemd/system/supervisord.service
 			sed -i "21c nodaemon=true              ; (start in foreground if true;default false)" /lib/systemd/system/supervisord.service
 			systemctl enable supervisord.service
-			read -p "æ˜¯å¦å¼€å¯webç«¯ :(y/n)" web
+			read -p "ÊÇ·ñ¿ªÆôweb¶Ë :(y/n)" web
 			if [ ${web} == "y" ] ;then
 				sed -i "10c [inet_http_server]         ; inet (TCP) server disabled by default" /etc/supervisord.conf
-				read -p "è¯·è¾“å…¥webåœ°å€(ip:portï¼Œé»˜è®¤ä¸º127.0.0.1:9001) :" http_address_input
+				read -p "ÇëÊäÈëwebµØÖ·(ip:port£¬Ä¬ÈÏÎª127.0.0.1:9001) :" http_address_input
 				if [ ${http_address} ] ;then
 					http_address=${http_address_input}
 				else
@@ -361,16 +398,16 @@ Supervisor_Shell(){
 				fi
 				sed -i "11c port=${http_address}        ; (ip_address:port specifier, *:port for all iface)" /etc/supervisord.conf
 
-				read -p "æ˜¯å¦å¼€å¯webç«¯ç™»é™†éªŒè¯(å¼ºçƒˆå»ºè®®å¼€å¯) :(y/n)" auth
+				read -p "ÊÇ·ñ¿ªÆôweb¶ËµÇÂ½ÑéÖ¤(Ç¿ÁÒ½¨Òé¿ªÆô) :(y/n)" auth
 				if [ ${auth} == "y" ] ;then
-					read -p "è¯·è¾“å…¥ç™»é™†å(é»˜è®¤ä¸ºuser) :" username_input
+					read -p "ÇëÊäÈëµÇÂ½Ãû(Ä¬ÈÏÎªuser) :" username_input
 					if [ ${username_input} ] ;then
 						username=${username_input}
 					else
 						username="user"
 					fi
 					sed -i "12c username=${username}              ; (default is no username (open server))" /etc/supervisord.conf
-					read -p "è¯·è¾“å…¥ç™»é™†å¯†ç (é»˜è®¤ä¸º123) :" pass_input
+					read -p "ÇëÊäÈëµÇÂ½ÃÜÂë(Ä¬ÈÏÎª123) :" pass_input
 
 					if [ ${pass_input} ] ;then
 						pass=${pass_input}
@@ -384,8 +421,8 @@ Supervisor_Shell(){
 			systemctl start supervisor.service
 			supervisorctl reload
 			supervisorctl status ssr
-			echo -e " ${Info} supervisorå®‰è£…å®Œæˆï¼"
-			read -p "æ˜¯å¦é€€å‡ºè„šæœ¬ :(y/n)" firewalld_input
+			echo -e " ${Info} supervisor°²×°Íê³É£¡"
+			read -p "ÊÇ·ñÍË³ö½Å±¾ :(y/n)" firewalld_input
 			if [ ${firewalld_input} == "y" ] ;then
 				exit 1
 			fi
@@ -404,9 +441,9 @@ Supervisor_Shell(){
 }
 
 
-#############ç³»ç»Ÿæ£€æµ‹ç»„ä»¶#############
+#############ÏµÍ³¼ì²â×é¼ş#############
 
-#æ£€æŸ¥ç³»ç»Ÿ
+#¼ì²éÏµÍ³
 check_sys(){
 	if [[ -f /etc/redhat-release ]]; then
 		release="centos"
@@ -425,7 +462,7 @@ check_sys(){
     fi
 }
 
-#æ£€æŸ¥Linuxç‰ˆæœ¬
+#¼ì²éLinux°æ±¾
 check_version(){
 	if [[ -s /etc/redhat-release ]]; then
 		version=`grep -oE  "[0-9.]+" /etc/redhat-release | cut -d . -f 1`
@@ -440,33 +477,33 @@ check_version(){
 	fi
 }
 
-#æ£€æŸ¥å®‰è£…bbrçš„ç³»ç»Ÿè¦æ±‚
+#¼ì²é°²×°bbrµÄÏµÍ³ÒªÇó
 # check_sys_bbr(){
 	# check_version
 	# if [[ "${release}" == "centos" ]]; then
 		# if [[ ${version} -ge "6" ]]; then
 			# installbbr
 		# else
-			# echo -e "${Error} BBRå†…æ ¸ä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} ${version} ${bit} !" && exit 1
+			# echo -e "${Error} BBRÄÚºË²»Ö§³Öµ±Ç°ÏµÍ³ ${release} ${version} ${bit} !" && exit 1
 		# fi
 	# elif [[ "${release}" == "debian" ]]; then
 		# if [[ ${version} -ge "8" ]]; then
 			# installbbr
 		# else
-			# echo -e "${Error} BBRå†…æ ¸ä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} ${version} ${bit} !" && exit 1
+			# echo -e "${Error} BBRÄÚºË²»Ö§³Öµ±Ç°ÏµÍ³ ${release} ${version} ${bit} !" && exit 1
 		# fi
 	# elif [[ "${release}" == "ubuntu" ]]; then
 		# if [[ ${version} -ge "14" ]]; then
 			# installbbr
 		# else
-			# echo -e "${Error} BBRå†…æ ¸ä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} ${version} ${bit} !" && exit 1
+			# echo -e "${Error} BBRÄÚºË²»Ö§³Öµ±Ç°ÏµÍ³ ${release} ${version} ${bit} !" && exit 1
 		# fi
 	# else
-		# echo -e "${Error} BBRå†…æ ¸ä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} ${version} ${bit} !" && exit 1
+		# echo -e "${Error} BBRÄÚºË²»Ö§³Öµ±Ç°ÏµÍ³ ${release} ${version} ${bit} !" && exit 1
 	# fi
 # }
 
-#æ£€æŸ¥å®‰è£…Lotseverçš„ç³»ç»Ÿè¦æ±‚
+#¼ì²é°²×°LotseverµÄÏµÍ³ÒªÇó
 # check_sys_Lotsever(){
 	# check_version
 	# if [[ "${release}" == "centos" ]]; then
@@ -478,7 +515,7 @@ check_version(){
 			# kernel_version="3.10.0-327"
 			# installlot
 		# else
-			# echo -e "${Error} Lotseverä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} ${version} ${bit} !" && exit 1
+			# echo -e "${Error} Lotsever²»Ö§³Öµ±Ç°ÏµÍ³ ${release} ${version} ${bit} !" && exit 1
 		# fi
 	# elif [[ "${release}" == "debian" ]]; then
 		# if [[ ${version} -ge "7" ]]; then
@@ -490,7 +527,7 @@ check_version(){
 				# installlot
 			# fi
 		# else
-			# echo -e "${Error} Lotseverä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} ${version} ${bit} !" && exit 1
+			# echo -e "${Error} Lotsever²»Ö§³Öµ±Ç°ÏµÍ³ ${release} ${version} ${bit} !" && exit 1
 		# fi
 	# elif [[ "${release}" == "ubuntu" ]]; then
 		# if [[ ${version} -ge "12" ]]; then
@@ -502,10 +539,10 @@ check_version(){
 				# installlot
 			# fi
 		# else
-			# echo -e "${Error} Lotseverä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} ${version} ${bit} !" && exit 1
+			# echo -e "${Error} Lotsever²»Ö§³Öµ±Ç°ÏµÍ³ ${release} ${version} ${bit} !" && exit 1
 		# fi
 	# else
-		# echo -e "${Error} Lotseverä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} ${version} ${bit} !" && exit 1
+		# echo -e "${Error} Lotsever²»Ö§³Öµ±Ç°ÏµÍ³ ${release} ${version} ${bit} !" && exit 1
 	# fi
 # }
 
@@ -522,38 +559,38 @@ check_version(){
 		# if [[ -e /appex/bin/serverSpeeder.sh ]]; then
 			# run_status=`bash /appex/bin/serverSpeeder.sh status | grep "ServerSpeeder" | awk  '{print $3}'`
 			# if [[ ${run_status} = "running!" ]]; then
-				# run_status="å¯åŠ¨æˆåŠŸ"
+				# run_status="Æô¶¯³É¹¦"
 			# else
-				# run_status="å¯åŠ¨å¤±è´¥"
+				# run_status="Æô¶¯Ê§°Ü"
 			# fi
 		# else
-			# run_status="æœªå®‰è£…åŠ é€Ÿæ¨¡å—"
+			# run_status="Î´°²×°¼ÓËÙÄ£¿é"
 		# fi
 	# elif [[ ${kernel_status} == "BBR" ]]; then
 		# run_status=`grep "net.ipv4.tcp_congestion_control" /etc/sysctl.conf | awk -F "=" '{print $2}'`
 		# if [[ ${run_status} == "bbr" ]]; then
 			# run_status=`lsmod | grep "bbr" | awk '{print $1}'`
 			# if [[ ${run_status} == "tcp_bbr" ]]; then
-				# run_status="BBRå¯åŠ¨æˆåŠŸ"
+				# run_status="BBRÆô¶¯³É¹¦"
 			# else
-				# run_status="BBRå¯åŠ¨å¤±è´¥"
+				# run_status="BBRÆô¶¯Ê§°Ü"
 			# fi
 		# elif [[ ${run_status} == "tsunami" ]]; then
 			# run_status=`lsmod | grep "tsunami" | awk '{print $1}'`
 			# if [[ ${run_status} == "tcp_tsunami" ]]; then
-				# run_status="BBRé­”æ”¹ç‰ˆå¯åŠ¨æˆåŠŸ"
+				# run_status="BBRÄ§¸Ä°æÆô¶¯³É¹¦"
 			# else
-				# run_status="BBRé­”æ”¹ç‰ˆå¯åŠ¨å¤±è´¥"
+				# run_status="BBRÄ§¸Ä°æÆô¶¯Ê§°Ü"
 			# fi
 		# else
-			# run_status="æœªå®‰è£…åŠ é€Ÿæ¨¡å—"
+			# run_status="Î´°²×°¼ÓËÙÄ£¿é"
 		# fi
 	# fi
 # }
 
-#############ç³»ç»Ÿæ£€æµ‹ç»„ä»¶#############
+#############ÏµÍ³¼ì²â×é¼ş#############
 
 check_sys
 check_version
-[[ ${release} != "centos" ]] && echo -e "${Error} æœ¬è„šæœ¬ä¸æ”¯æŒå½“å‰ç³»ç»Ÿ ${release} !" && exit 1
+[[ ${release} != "centos" ]] && echo -e "${Error} ±¾½Å±¾²»Ö§³Öµ±Ç°ÏµÍ³ ${release} !" && exit 1
 start_menu
