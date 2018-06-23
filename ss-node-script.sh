@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.5.2
+#	Version: 0.5.3
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.5.2"
+sh_ver="0.5.3"
 github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -35,7 +35,7 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
  ${Green_font_prefix}4.${Font_color_suffix} 运行服务
  ${Green_font_prefix}5.${Font_color_suffix} 开放防火墙
  ${Green_font_prefix}6.${Font_color_suffix} bug修复
- ${Green_font_prefix}7.${Font_color_suffix} 安装supervisor守护进程
+ ${Green_font_prefix}7.${Font_color_suffix} 守护进程
  ${Green_font_prefix}8.${Font_color_suffix} 退出脚本
 ————————————————————————————————" && echo
 
@@ -77,7 +77,7 @@ case "$num" in
 	Bug_fix
 	;;
 	7)
-	Supervisor_Shell
+	Daemon_Shell
 	;;
 	8)
 	exit 1
@@ -85,7 +85,7 @@ case "$num" in
 	*)
 	clear
 	echo -e "${Error}:请输入正确数字 [0-8]"
-	sleep 5s
+	sleep 2s
 	start_menu
 	;;
 esac
@@ -329,6 +329,27 @@ Bug_fix(){
 	start_menu
 }
 
+Daemon_Shell(){
+	if [[ "${release}" == "centos" ]]; then
+		clear
+		echo -e " 请选择 :
+		${Green_font_prefix}1.${Font_color_suffix} screen守护进程
+		${Green_font_prefix}2.${Font_color_suffix} supervisor守护进程
+		${Green_font_prefix}3.${Font_color_suffix} 退回主菜单
+		————————————————————————————————"
+		read -p "请输入数字 :" num
+		if [ ${num} == "1" ] ;then
+			Screen_Shell
+		fi
+		if [ ${num} == "2" ] ;then
+			Supervisor_Shell
+		fi
+		if [ ${num} == "3" ] ;then
+			start_menu
+		fi
+	fi
+}
+
 Screen_Shell(){
 	if [[ "${release}" == "centos" ]]; then
 		clear
@@ -350,6 +371,7 @@ Screen_Shell(){
 			fi
 			sleep 2s
 			start_menu
+		fi
 		if [ ${num} == "2" ] ;then
 			bash /root/ssr_start.sh
 			echo -e " ${Info} screen启动完成！"
