@@ -11,7 +11,7 @@ export PATH
 #=================================================
 
 sh_ver="0.5.3"
-github="raw.githubusercontent.com/mlch911/ss-node-script/master/"
+github="https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
@@ -362,7 +362,7 @@ Screen_Shell(){
 		if [ ${num} == "1" ] ;then
 			yum -y install screen
 			cd /root
-			wget -N --no-check-certificate https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master/ssr_start.sh
+			wget -N --no-check-certificate https://${github}/ssr_start.sh
 			bash /root/ssr_start.sh
 			echo -e " ${Info} screen启动完成！"
 			read -p "是否退出脚本 :(y/n)" firewalld_input
@@ -402,10 +402,10 @@ Supervisor_Shell(){
 			yum install -y epel-release
 			yum install -y supervisor
 			cd ~
-			wget -N --no-check-certificate https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master/ssr.conf
+			wget -N --no-check-certificate https://${github}/ssr.conf
 			mv ~/ssr.conf /etc/supervisord.d/ssr.conf
 			sed -i "129c files = supervisord.d/*.ini /etc/supervisord.d/*.conf" /etc/supervisord.conf
-			wget -N --no-check-certificate https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master/supervisord.service
+			wget -N --no-check-certificate https://${github}/supervisord.service
 			mv ~/supervisord.service /lib/systemd/system/supervisord.service
 			sed -i "21c nodaemon=true              ; (start in foreground if true;default false)" /lib/systemd/system/supervisord.service
 			systemctl enable supervisord.service
