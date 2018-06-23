@@ -46,7 +46,7 @@ echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${s
 	# 	echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
 	# fi
 
-	sh_new_ver=$(wget --no-check-certificate -qO- "https://${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+	sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 		Update_Shell
 	fi
@@ -94,14 +94,14 @@ esac
 #更新脚本
 Update_Shell(){
 	echo -e "当前版本为 [ ${sh_ver} ]，开始检测最新版本..."
-	sh_new_ver=$(wget --no-check-certificate -qO- "https://${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+	sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 检测最新版本失败 !" && sleep 2s && start_menu
 	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 		echo -e "发现新版本[ ${sh_new_ver} ]，是否更新？[Y/n]"
 		read -p "(默认: y):" yn
 		[[ -z "${yn}" ]] && yn="y"
 		if [[ ${yn} == [Yy] ]]; then
-			wget -N --no-check-certificate http://${github}/ss-node-script.sh && chmod +x ss-node-script.sh
+			wget -N --no-check-certificate ${github}/ss-node-script.sh && chmod +x ss-node-script.sh
 			echo -e "脚本已更新为最新版本[ ${sh_new_ver} ] ! 稍等片刻，马上运行 !"
 			bash ss-node-script.sh
 		else
@@ -362,7 +362,7 @@ Screen_Shell(){
 		if [ ${num} == "1" ] ;then
 			yum -y install screen
 			cd /root
-			wget -N --no-check-certificate https://${github}/ssr_start.sh
+			wget -N --no-check-certificate ${github}/ssr_start.sh
 			bash /root/ssr_start.sh
 			echo -e " ${Info} screen启动完成！"
 			read -p "是否退出脚本 :(y/n)" firewalld_input
@@ -402,10 +402,10 @@ Supervisor_Shell(){
 			yum install -y epel-release
 			yum install -y supervisor
 			cd ~
-			wget -N --no-check-certificate https://${github}/ssr.conf
+			wget -N --no-check-certificate ${github}/ssr.conf
 			mv ~/ssr.conf /etc/supervisord.d/ssr.conf
 			sed -i "129c files = supervisord.d/*.ini /etc/supervisord.d/*.conf" /etc/supervisord.conf
-			wget -N --no-check-certificate https://${github}/supervisord.service
+			wget -N --no-check-certificate ${github}/supervisord.service
 			mv ~/supervisord.service /lib/systemd/system/supervisord.service
 			sed -i "21c nodaemon=true              ; (start in foreground if true;default false)" /lib/systemd/system/supervisord.service
 			systemctl enable supervisord.service
