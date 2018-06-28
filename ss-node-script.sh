@@ -22,73 +22,73 @@ Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
 
 #开始菜单
 start_menu(){
-clear
-echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-  -- 壕琛小站 | cc.mluoc.tk --
-
-  第一次运行，请按照0->1->2->3->4的顺序执行脚本
-
- ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
- ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
- ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
- ${Green_font_prefix}3.${Font_color_suffix} 测试服务器
- ${Green_font_prefix}4.${Font_color_suffix} 运行服务
- ${Green_font_prefix}5.${Font_color_suffix} 开放防火墙
- ${Green_font_prefix}6.${Font_color_suffix} bug修复
- ${Green_font_prefix}7.${Font_color_suffix} 守护进程
- ${Green_font_prefix}8.${Font_color_suffix} 退出脚本
-————————————————————————————————" && echo
-
-	# check_status
-	# if [[ ${kernel_status} == "noinstall" ]]; then
-	# 	echo -e " 当前状态: ${Green_font_prefix}未安装${Font_color_suffix} 加速内核 ${Red_font_prefix}请先安装内核${Font_color_suffix}"
-	# else
-	# 	echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
-	# fi
-
-	sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
-	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
-		Update_Shell
-	fi
-
-
-echo
-read -p " 请输入数字 [0-8]:" num
-case "$num" in
-	0)
-	Update_Shell
-	;;
-	1)
-	Install_Shell
-	;;
-	2)
-	ServerSetup_Shell
-	;;
-	3)
-	TestServer_Shell
-	;;
-	4)
-	Run_Shell
-	;;
-	5)
-	Firewalld_Shell
-	;;
-	6)
-	Bug_fix
-	;;
-	7)
-	Daemon_Shell
-	;;
-	8)
-	exit 1
-	;;
-	*)
 	clear
-	echo -e "${Error}:请输入正确数字 [0-8]"
-	sleep 2s
-	start_menu
-	;;
-esac
+	echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
+	  -- 壕琛小站 | cc.mluoc.tk --
+
+	  第一次运行，请按照0->1->2->3->4的顺序执行脚本
+
+	 ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
+	 ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
+	 ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
+	 ${Green_font_prefix}3.${Font_color_suffix} 测试服务器
+	 ${Green_font_prefix}4.${Font_color_suffix} 运行服务
+	 ${Green_font_prefix}5.${Font_color_suffix} 开放防火墙
+	 ${Green_font_prefix}6.${Font_color_suffix} bug修复
+	 ${Green_font_prefix}7.${Font_color_suffix} 守护进程
+	 ${Green_font_prefix}8.${Font_color_suffix} 退出脚本
+	————————————————————————————————" && echo
+
+		# check_status
+		# if [[ ${kernel_status} == "noinstall" ]]; then
+		# 	echo -e " 当前状态: ${Green_font_prefix}未安装${Font_color_suffix} 加速内核 ${Red_font_prefix}请先安装内核${Font_color_suffix}"
+		# else
+		# 	echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
+		# fi
+
+		sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+		if [[ ${sh_new_ver} != ${sh_ver} ]]; then
+			Update_Shell
+		fi
+
+
+	echo
+	read -p " 请输入数字 [0-8]:" num
+	case "$num" in
+		0)
+		Update_Shell
+		;;
+		1)
+		Install_Shell
+		;;
+		2)
+		ServerSetup_Shell
+		;;
+		3)
+		TestServer_Shell
+		;;
+		4)
+		Run_Shell
+		;;
+		5)
+		Firewalld_Shell
+		;;
+		6)
+		Bug_fix
+		;;
+		7)
+		Daemon_Shell
+		;;
+		8)
+		exit 1
+		;;
+		*)
+		clear
+		echo -e "${Error}:请输入正确数字 [0-8]"
+		sleep 2s
+		start_menu
+		;;
+	esac
 }
 
 #更新脚本
@@ -139,7 +139,6 @@ Install_Shell(){
 	如果返回错误显示requests无法安装，请运行脚本来更新requests"
 	sleep 5s
 	start_menu
-
 }
 
 #服务器配置
@@ -285,7 +284,6 @@ Firewalld_Shell(){
 	fi
 	sleep 2s
 	start_menu
-
 }
 
 # 更新requests
