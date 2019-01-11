@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.5.5
+#	Version: 0.5.6
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.5.5"
+sh_ver="0.5.6"
 github="https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -44,7 +44,7 @@ start_menu(){
 		# 	echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
 		# fi
 
-		sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ssrpanel-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+		sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 		if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 			Update_Shell
 		fi
