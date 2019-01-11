@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.5.4
+#	Version: 0.5.5
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.5.4"
+sh_ver="0.5.5"
 github="https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -129,8 +129,13 @@ Install_Shell(){
 
 	# 如果返回错误显示requests无法安装，请运行脚本来更新requests
 
-	docker version > /dev/null || curl -fsSL get.docker.com | bash
-	service docker restart
+	yum -y remove docker docker-common container-selinux docker-selinux docker-engine docker-engine-selinux
+	yum install -y yum-utils device-mapper-persistent-data lvm2
+	yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+	yum makecache fast
+	yum -y install docker-ce docker-compose
+	systemctl enable docker
+	systemctl start docker
 
 	echo -e "${Info}依赖安装结束！"
 	sleep 5s
