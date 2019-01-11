@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.5.7
+#	Version: 0.5.8
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.5.7"
+sh_ver="0.5.8"
 github="https://raw.githubusercontent.com/mlch911/ss-node-script/master"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -30,11 +30,10 @@ start_menu(){
 
 	 ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
 	 ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
-	 ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
-	 ${Green_font_prefix}3.${Font_color_suffix} 运行服务
-	 ${Green_font_prefix}4.${Font_color_suffix} 检查Logs
-	 ${Green_font_prefix}5.${Font_color_suffix} 开放防火墙
-	 ${Green_font_prefix}6.${Font_color_suffix} 退出脚本
+	 ${Green_font_prefix}2.${Font_color_suffix} 服务器配置并运行
+	 ${Green_font_prefix}3.${Font_color_suffix} 检查Logs
+	 ${Green_font_prefix}4.${Font_color_suffix} 开放防火墙
+	 ${Green_font_prefix}5.${Font_color_suffix} 退出脚本
 	————————————————————————————————" && echo
 
 		# check_status
@@ -63,15 +62,12 @@ start_menu(){
 		ServerSetup_Shell
 		;;
 		3)
-		Run_Shell
-		;;
-		4)
 		Server_Log
 		;;
-		5)
+		4)
 		Firewalld_Shell
 		;;
-		6)
+		5)
 		exit 1
 		;;
 		*)
@@ -252,24 +248,24 @@ ServerSetup_Shell(){
 # 	start_menu
 # }
 
-#运行服务
-Run_Shell(){
-	cd /root/shadowsocks
-	echo -e " ${Info} 建议执行python server.py进行测试后再运行服务"
-	read -p "是否运行服务 :(y/n)" run_input_a
-	if [ ${run_input_a} == "y" ] ;then
-		/root/shadowsocks/run.sh
-		echo -e " ${Info} sspanel后端运行成功！"
-		read -p "是否退出脚本 :(y/n)" run_input_b
-		if [ ${run_input_b} == "y" ] ;then
-			exit 1
-		fi
-		sleep 2s
-		start_menu
-	else
-		start_menu
-	fi
-}
+# #运行服务
+# Run_Shell(){
+# 	cd /root/shadowsocks
+# 	echo -e " ${Info} 建议执行python server.py进行测试后再运行服务"
+# 	read -p "是否运行服务 :(y/n)" run_input_a
+# 	if [ ${run_input_a} == "y" ] ;then
+# 		/root/shadowsocks/run.sh
+# 		echo -e " ${Info} sspanel后端运行成功！"
+# 		read -p "是否退出脚本 :(y/n)" run_input_b
+# 		if [ ${run_input_b} == "y" ] ;then
+# 			exit 1
+# 		fi
+# 		sleep 2s
+# 		start_menu
+# 	else
+# 		start_menu
+# 	fi
+# }
 
 #检查Logs
 Server_Log(){
