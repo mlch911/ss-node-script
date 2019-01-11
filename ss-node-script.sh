@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.5.3
+#	Version: 0.5.4
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.5.3"
+sh_ver="0.5.4"
 github="https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -24,19 +24,17 @@ Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
 start_menu(){
 	clear
 	echo && echo -e " sspanel后端 一键安装管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
-	  -- 壕琛小站 | cc.mluoc.tk --
+	  -- 壕琛小站 | ss.mluoc.tk --
 
-	  第一次运行，请按照0->1->2->3->4的顺序执行脚本
+	  第一次运行，请按照1->2->3->4的顺序执行脚本
 
 	 ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
 	 ${Green_font_prefix}1.${Font_color_suffix} 安装依赖(只需执行一次，若重复执行会覆盖原有配置)
 	 ${Green_font_prefix}2.${Font_color_suffix} 服务器配置
-	 ${Green_font_prefix}3.${Font_color_suffix} 测试服务器
-	 ${Green_font_prefix}4.${Font_color_suffix} 运行服务
+	 ${Green_font_prefix}3.${Font_color_suffix} 运行服务
+	 ${Green_font_prefix}4.${Font_color_suffix} 检查Logs
 	 ${Green_font_prefix}5.${Font_color_suffix} 开放防火墙
-	 ${Green_font_prefix}6.${Font_color_suffix} bug修复
-	 ${Green_font_prefix}7.${Font_color_suffix} 守护进程
-	 ${Green_font_prefix}8.${Font_color_suffix} 退出脚本
+	 ${Green_font_prefix}6.${Font_color_suffix} 退出脚本
 	————————————————————————————————" && echo
 
 		# check_status
@@ -46,7 +44,7 @@ start_menu(){
 		# 	echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} ${_font_prefix}${kernel_status}${Font_color_suffix} 加速内核 , ${Green_font_prefix}${run_status}${Font_color_suffix}"
 		# fi
 
-		sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+		sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ssrpanel-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 		if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 			Update_Shell
 		fi
@@ -65,21 +63,15 @@ start_menu(){
 		ServerSetup_Shell
 		;;
 		3)
-		TestServer_Shell
+		Run_Shell
 		;;
 		4)
-		Run_Shell
+		Server_Log
 		;;
 		5)
 		Firewalld_Shell
 		;;
 		6)
-		Bug_fix
-		;;
-		7)
-		Daemon_Shell
-		;;
-		8)
 		exit 1
 		;;
 		*)
@@ -94,7 +86,7 @@ start_menu(){
 #更新脚本
 Update_Shell(){
 	echo -e "当前版本为 [ ${sh_ver} ]，开始检测最新版本..."
-	sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ss-node-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+	sh_new_ver=$(wget --no-check-certificate -qO- "${github}/ssrpanel-script.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 检测最新版本失败 !" && sleep 2s && start_menu
 	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 		echo -e "发现新版本[ ${sh_new_ver} ]，是否更新？[Y/n]"
@@ -117,49 +109,95 @@ Update_Shell(){
 
 #安装依赖
 Install_Shell(){
-	if [[ "${release}" == "centos" ]]; then
-		# cd ~ || read -p "${Error}依赖安装失败！按任意键返回主界面。" x
-		yum -y groupinstall "Development Tools"
-		wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz
-		tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16
-		./configure && make -j2 && make install
-		echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
-		ldconfig
-		cd /root
-		yum -y install python-setuptools
-		easy_install pip
-		git clone -b manyuser https://github.com/glzjin/shadowsocks.git
-		cd shadowsocks
-		pip install -r requirements.txt
-		cp apiconfig.py userapiconfig.py
-		cp config.json user-config.json
-	fi
+	# if [[ "${release}" == "centos" ]]; then
+	# 	# cd ~ || read -p "${Error}依赖安装失败！按任意键返回主界面。" x
+	# 	yum -y groupinstall "Development Tools"
+	# 	wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz
+	# 	tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16
+	# 	./configure && make -j2 && make install
+	# 	echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
+	# 	ldconfig
+	# 	cd /root
+	# 	yum -y install python-setuptools
+	# 	easy_install pip
+	# 	git clone -b manyuser https://github.com/glzjin/shadowsocks.git
+	# 	cd shadowsocks
+	# 	pip install -r requirements.txt
+	# 	cp apiconfig.py userapiconfig.py
+	# 	cp config.json user-config.json
+	# fi
 
-	echo -e "${Info}依赖安装结束！
-	如果返回错误显示requests无法安装，请运行脚本来更新requests"
+	# 如果返回错误显示requests无法安装，请运行脚本来更新requests
+
+	docker version > /dev/null || curl -fsSL get.docker.com | bash
+	service docker restart
+
+	echo -e "${Info}依赖安装结束！"
 	sleep 5s
 	start_menu
 }
 
 #服务器配置
 ServerSetup_Shell(){
-	cd /root/shadowsocks
+	# cd /root/shadowsocks
+
+	# #设置node_id
+	# read -p " 请输入该节点的NODE_ID :" node_id
+	# sed -i "2c NODE_ID = ${node_id}" userapiconfig.py
+
+	# #设置API
+	# sed -i "15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi" userapiconfig.py
+
+	# #设置服务器IP
+	# read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
+	# if  [ ${mysql_host_input} ] ;then
+	# 	mysql_host=${mysql_host_input}
+	# else
+	# 	mysql_host="127.0.0.1"
+	# fi
+	# sed -i "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
+
+	# #设置mysql服务器端口
+	# read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
+	# mysql_port="3306"
+	# if  [ ${mysql_port_input} ] ;then
+	# 	mysql_port=${mysql_port_input}
+	# fi
+	# sed -i "25c MYSQL_PORT = ${mysql_port}" userapiconfig.py
+
+	# #设置mysql服务器用户
+	# read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
+	# mysql_user="sspanel"
+	# if  [ ${mysql_user_input} ] ;then
+	# 	mysql_user=${mysql_user_input}
+	# fi
+	# sed -i "26c MYSQL_USER = '${mysql_user}'" userapiconfig.py
+
+	# #设置mysql服务器密码
+	# read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
+	# mysql_pass="sspanel"
+	# if  [ ${mysql_pass_input} ] ;then
+	# 	mysql_pass=${mysql_pass_input}
+	# fi
+	# sed -i "27c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
+
+	# #设置mysql服务器数据库
+	# read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
+	# mysql_db="sspanel"
+	# if  [ ${mysql_db_input} ] ;then
+	# 	mysql_db=${mysql_db_input}
+	# fi
+	# sed -i "28c MYSQL_DB = '${mysql_db}'" userapiconfig.py
 
 	#设置node_id
 	read -p " 请输入该节点的NODE_ID :" node_id
-	sed -i "2c NODE_ID = ${node_id}" userapiconfig.py
-
-	#设置API
-	sed -i "15c API_INTERFACE = 'glzjinmod'  # glzjinmod, modwebapi" userapiconfig.py
 
 	#设置服务器IP
 	read -p ' 请输入sspanel服务器的IP(不输入则为127.0.0.1) :' mysql_host_input
+	mysql_host="127.0.0.1"
 	if  [ ${mysql_host_input} ] ;then
 		mysql_host=${mysql_host_input}
-	else
-		mysql_host="127.0.0.1"
 	fi
-	sed -i "24c MYSQL_HOST = '${mysql_host}'" userapiconfig.py
 
 	#设置mysql服务器端口
 	read -p ' 请输入sspanel服务器的数据库端口号(不输入则为3306) :' mysql_port_input
@@ -167,7 +205,6 @@ ServerSetup_Shell(){
 	if  [ ${mysql_port_input} ] ;then
 		mysql_port=${mysql_port_input}
 	fi
-	sed -i "25c MYSQL_PORT = ${mysql_port}" userapiconfig.py
 
 	#设置mysql服务器用户
 	read -p ' 请输入sspanel服务器的数据库用户名(不输入则为sspanel) :' mysql_user_input
@@ -175,7 +212,6 @@ ServerSetup_Shell(){
 	if  [ ${mysql_user_input} ] ;then
 		mysql_user=${mysql_user_input}
 	fi
-	sed -i "26c MYSQL_USER = '${mysql_user}'" userapiconfig.py
 
 	#设置mysql服务器密码
 	read -p ' 请输入sspanel服务器的数据库密码(不输入则为sspanel) :' mysql_pass_input
@@ -183,7 +219,6 @@ ServerSetup_Shell(){
 	if  [ ${mysql_pass_input} ] ;then
 		mysql_pass=${mysql_pass_input}
 	fi
-	sed -i "27c MYSQL_PASS = '${mysql_pass}'" userapiconfig.py
 
 	#设置mysql服务器数据库
 	read -p ' 请输入sspanel服务器的数据库名称(不输入则为sspanel) :' mysql_db_input
@@ -191,25 +226,26 @@ ServerSetup_Shell(){
 	if  [ ${mysql_db_input} ] ;then
 		mysql_db=${mysql_db_input}
 	fi
-	sed -i "28c MYSQL_DB = '${mysql_db}'" userapiconfig.py
+
+	docker run -d --name=ssrmu -e NODE_ID=${node_id} -e API_INTERFACE=glzjinmod -e MYSQL_HOST=${mysql_host} -e MYSQL_PORT=${mysql_port} -e MYSQL_DB=${mysql_db} -e MYSQL_USER=${mysql_user} -e MYSQL_PASS=${mysql_pass} --network=host --log-opt max-size=50m --log-opt max-file=3 --restart=always fanvinga/docker-ssrmu
 
 	echo -e "${Info}服务器配置完成！"
 	sleep 5s
 	start_menu
 }
 
-TestServer_Shell(){
-	cd /root/shadowsocks
-	echo -e "${Info} 按Ctrl+C停止运行！"
-	python server.py
-	echo -e " ${Info} 服务器测试完成！"
-	read -p "是否退出脚本 :(y/n)" run_input_b
-	if [ ${run_input_b} == "y" ] ;then
-		exit 1
-	fi
-	sleep 2s
-	start_menu
-}
+# TestServer_Shell(){
+# 	cd /root/shadowsocks
+# 	echo -e "${Info} 按Ctrl+C停止运行！"
+# 	python server.py
+# 	echo -e " ${Info} 服务器测试完成！"
+# 	read -p "是否退出脚本 :(y/n)" run_input_b
+# 	if [ ${run_input_b} == "y" ] ;then
+# 		exit 1
+# 	fi
+# 	sleep 2s
+# 	start_menu
+# }
 
 #运行服务
 Run_Shell(){
@@ -228,6 +264,11 @@ Run_Shell(){
 	else
 		start_menu
 	fi
+}
+
+#检查Logs
+Server_Log(){
+	docker logs -f ssrmu
 }
 
 #开放防火墙
@@ -286,179 +327,179 @@ Firewalld_Shell(){
 	start_menu
 }
 
-# 更新requests
-Bug_fix(){
-	clear
-	echo -e " 请选择Bug类型 :
-	${Green_font_prefix}1.${Font_color_suffix} 更新requests
-	${Green_font_prefix}2.${Font_color_suffix} git失败
-	————————————————————————————————"
-	read -p "请输入数字 :" num
-	if [ ${num} == "1" ] ;then
-		echo -e " ${Info} 强制更新requests组件"
-		read -p "是否更新 :(y/n)" run_input_a
-		if [ ${run_input_a} == "y" ] ;then
-			mkdir /usr/lib/python2.7/dist-packages/ && cd /usr/lib/python2.7/dist-packages/
-			echo "/usr/lib/python2.7/dist-packages/">>mypack.pth
-			git clone git://github.com/requests/requests.git
-			cd requests
-			python setup.py install
-			echo -e " ${Info} requests更新完成！"
-			read -p "是否退出脚本 :(y/n)" firewalld_input
-			if [ ${firewalld_input} == "y" ] ;then
-				exit 1
-			fi
-			sleep 2s
-			start_menu
-		else
-			start_menu
-		fi
-	elif [ ${num} == "2" ] ;then
-		yum update -y nss curl libcurl
-		echo -e " ${Info} nss更新完成！"
-		read -p "是否退出脚本 :(y/n)" firewalld_input
-			if [ ${firewalld_input} == "y" ] ;then
-				exit 1
-			fi
-			sleep 2s
-			start_menu
-	fi
-	sleep 2s
-	start_menu
-}
+# # 更新requests
+# Bug_fix(){
+# 	clear
+# 	echo -e " 请选择Bug类型 :
+# 	${Green_font_prefix}1.${Font_color_suffix} 更新requests
+# 	${Green_font_prefix}2.${Font_color_suffix} git失败
+# 	————————————————————————————————"
+# 	read -p "请输入数字 :" num
+# 	if [ ${num} == "1" ] ;then
+# 		echo -e " ${Info} 强制更新requests组件"
+# 		read -p "是否更新 :(y/n)" run_input_a
+# 		if [ ${run_input_a} == "y" ] ;then
+# 			mkdir /usr/lib/python2.7/dist-packages/ && cd /usr/lib/python2.7/dist-packages/
+# 			echo "/usr/lib/python2.7/dist-packages/">>mypack.pth
+# 			git clone git://github.com/requests/requests.git
+# 			cd requests
+# 			python setup.py install
+# 			echo -e " ${Info} requests更新完成！"
+# 			read -p "是否退出脚本 :(y/n)" firewalld_input
+# 			if [ ${firewalld_input} == "y" ] ;then
+# 				exit 1
+# 			fi
+# 			sleep 2s
+# 			start_menu
+# 		else
+# 			start_menu
+# 		fi
+# 	elif [ ${num} == "2" ] ;then
+# 		yum update -y nss curl libcurl
+# 		echo -e " ${Info} nss更新完成！"
+# 		read -p "是否退出脚本 :(y/n)" firewalld_input
+# 			if [ ${firewalld_input} == "y" ] ;then
+# 				exit 1
+# 			fi
+# 			sleep 2s
+# 			start_menu
+# 	fi
+# 	sleep 2s
+# 	start_menu
+# }
 
-Daemon_Shell(){
-	if [[ "${release}" == "centos" ]]; then
-		clear
-		echo -e " 请选择 :
-		${Green_font_prefix}1.${Font_color_suffix} screen守护进程
-		${Green_font_prefix}2.${Font_color_suffix} supervisor守护进程
-		${Green_font_prefix}3.${Font_color_suffix} 退回主菜单
-		————————————————————————————————"
-		read -p "请输入数字 :" num
-		if [ ${num} == "1" ] ;then
-			Screen_Shell
-		fi
-		if [ ${num} == "2" ] ;then
-			Supervisor_Shell
-		fi
-		if [ ${num} == "3" ] ;then
-			start_menu
-		fi
-	fi
-}
+# Daemon_Shell(){
+# 	if [[ "${release}" == "centos" ]]; then
+# 		clear
+# 		echo -e " 请选择 :
+# 		${Green_font_prefix}1.${Font_color_suffix} screen守护进程
+# 		${Green_font_prefix}2.${Font_color_suffix} supervisor守护进程
+# 		${Green_font_prefix}3.${Font_color_suffix} 退回主菜单
+# 		————————————————————————————————"
+# 		read -p "请输入数字 :" num
+# 		if [ ${num} == "1" ] ;then
+# 			Screen_Shell
+# 		fi
+# 		if [ ${num} == "2" ] ;then
+# 			Supervisor_Shell
+# 		fi
+# 		if [ ${num} == "3" ] ;then
+# 			start_menu
+# 		fi
+# 	fi
+# }
 
-Screen_Shell(){
-	if [[ "${release}" == "centos" ]]; then
-		clear
-		echo -e " 请选择 :
-		${Green_font_prefix}1.${Font_color_suffix} 安装并启动screen守护进程
-		${Green_font_prefix}2.${Font_color_suffix} 启动screen守护进程
-		${Green_font_prefix}3.${Font_color_suffix} 退回主菜单
-		————————————————————————————————"
-		read -p "请输入数字 :" num
-		if [ ${num} == "1" ] ;then
-			yum -y install screen
-			cd /root
-			wget -N --no-check-certificate ${github}/ssr_start.sh
-			bash /root/ssr_start.sh
-			echo -e " ${Info} screen启动完成！"
-			read -p "是否退出脚本 :(y/n)" firewalld_input
-			if [ ${firewalld_input} == "y" ] ;then
-				exit 1
-			fi
-			sleep 2s
-			start_menu
-		fi
-		if [ ${num} == "2" ] ;then
-			bash /root/ssr_start.sh
-			echo -e " ${Info} screen启动完成！"
-			read -p "是否退出脚本 :(y/n)" firewalld_input
-			if [ ${firewalld_input} == "y" ] ;then
-				exit 1
-			fi
-			sleep 2s
-			start_menu
-		fi
-		if [ ${num} == "3" ] ;then
-			start_menu
-		fi
-	fi
-}
+# Screen_Shell(){
+# 	if [[ "${release}" == "centos" ]]; then
+# 		clear
+# 		echo -e " 请选择 :
+# 		${Green_font_prefix}1.${Font_color_suffix} 安装并启动screen守护进程
+# 		${Green_font_prefix}2.${Font_color_suffix} 启动screen守护进程
+# 		${Green_font_prefix}3.${Font_color_suffix} 退回主菜单
+# 		————————————————————————————————"
+# 		read -p "请输入数字 :" num
+# 		if [ ${num} == "1" ] ;then
+# 			yum -y install screen
+# 			cd /root
+# 			wget -N --no-check-certificate ${github}/ssr_start.sh
+# 			bash /root/ssr_start.sh
+# 			echo -e " ${Info} screen启动完成！"
+# 			read -p "是否退出脚本 :(y/n)" firewalld_input
+# 			if [ ${firewalld_input} == "y" ] ;then
+# 				exit 1
+# 			fi
+# 			sleep 2s
+# 			start_menu
+# 		fi
+# 		if [ ${num} == "2" ] ;then
+# 			bash /root/ssr_start.sh
+# 			echo -e " ${Info} screen启动完成！"
+# 			read -p "是否退出脚本 :(y/n)" firewalld_input
+# 			if [ ${firewalld_input} == "y" ] ;then
+# 				exit 1
+# 			fi
+# 			sleep 2s
+# 			start_menu
+# 		fi
+# 		if [ ${num} == "3" ] ;then
+# 			start_menu
+# 		fi
+# 	fi
+# }
 
-Supervisor_Shell(){
-	if [[ "${release}" == "centos" ]]; then
-		clear
-		echo -e " 请选择 :
-		${Green_font_prefix}1.${Font_color_suffix} 安装supervisor守护进程
-		${Green_font_prefix}2.${Font_color_suffix} 检测ssr是否在运行
-		${Green_font_prefix}3.${Font_color_suffix} 退回主菜单
-		————————————————————————————————"
-		read -p "请输入数字 :" num
-		if [ ${num} == "1" ] ;then
-			/root/shadowsocks/stop.sh
-			yum install -y epel-release
-			yum install -y supervisor
-			cd ~
-			wget -N --no-check-certificate ${github}/ssr.conf
-			mv ~/ssr.conf /etc/supervisord.d/ssr.conf
-			sed -i "129c files = supervisord.d/*.ini /etc/supervisord.d/*.conf" /etc/supervisord.conf
-			wget -N --no-check-certificate ${github}/supervisord.service
-			mv ~/supervisord.service /lib/systemd/system/supervisord.service
-			sed -i "21c nodaemon=true              ; (start in foreground if true;default false)" /lib/systemd/system/supervisord.service
-			systemctl enable supervisord.service
-			read -p "是否开启web端 :(y/n)" web
-			if [ ${web} == "y" ] ;then
-				sed -i "10c [inet_http_server]         ; inet (TCP) server disabled by default" /etc/supervisord.conf
-				read -p "请输入web地址(ip:port，默认为127.0.0.1:9001) :" http_address_input
-				if [ ${http_address} ] ;then
-					http_address=${http_address_input}
-				else
-					http_address="127.0.0.1:9001"
-				fi
-				sed -i "11c port=${http_address}        ; (ip_address:port specifier, *:port for all iface)" /etc/supervisord.conf
+# Supervisor_Shell(){
+# 	if [[ "${release}" == "centos" ]]; then
+# 		clear
+# 		echo -e " 请选择 :
+# 		${Green_font_prefix}1.${Font_color_suffix} 安装supervisor守护进程
+# 		${Green_font_prefix}2.${Font_color_suffix} 检测ssr是否在运行
+# 		${Green_font_prefix}3.${Font_color_suffix} 退回主菜单
+# 		————————————————————————————————"
+# 		read -p "请输入数字 :" num
+# 		if [ ${num} == "1" ] ;then
+# 			/root/shadowsocks/stop.sh
+# 			yum install -y epel-release
+# 			yum install -y supervisor
+# 			cd ~
+# 			wget -N --no-check-certificate ${github}/ssr.conf
+# 			mv ~/ssr.conf /etc/supervisord.d/ssr.conf
+# 			sed -i "129c files = supervisord.d/*.ini /etc/supervisord.d/*.conf" /etc/supervisord.conf
+# 			wget -N --no-check-certificate ${github}/supervisord.service
+# 			mv ~/supervisord.service /lib/systemd/system/supervisord.service
+# 			sed -i "21c nodaemon=true              ; (start in foreground if true;default false)" /lib/systemd/system/supervisord.service
+# 			systemctl enable supervisord.service
+# 			read -p "是否开启web端 :(y/n)" web
+# 			if [ ${web} == "y" ] ;then
+# 				sed -i "10c [inet_http_server]         ; inet (TCP) server disabled by default" /etc/supervisord.conf
+# 				read -p "请输入web地址(ip:port，默认为127.0.0.1:9001) :" http_address_input
+# 				if [ ${http_address} ] ;then
+# 					http_address=${http_address_input}
+# 				else
+# 					http_address="127.0.0.1:9001"
+# 				fi
+# 				sed -i "11c port=${http_address}        ; (ip_address:port specifier, *:port for all iface)" /etc/supervisord.conf
 
-				read -p "是否开启web端登陆验证(强烈建议开启) :(y/n)" auth
-				if [ ${auth} == "y" ] ;then
-					read -p "请输入登陆名(默认为user) :" username_input
-					if [ ${username_input} ] ;then
-						username=${username_input}
-					else
-						username="user"
-					fi
-					sed -i "12c username=${username}              ; (default is no username (open server))" /etc/supervisord.conf
-					read -p "请输入登陆密码(默认为123) :" pass_input
+# 				read -p "是否开启web端登陆验证(强烈建议开启) :(y/n)" auth
+# 				if [ ${auth} == "y" ] ;then
+# 					read -p "请输入登陆名(默认为user) :" username_input
+# 					if [ ${username_input} ] ;then
+# 						username=${username_input}
+# 					else
+# 						username="user"
+# 					fi
+# 					sed -i "12c username=${username}              ; (default is no username (open server))" /etc/supervisord.conf
+# 					read -p "请输入登陆密码(默认为123) :" pass_input
 
-					if [ ${pass_input} ] ;then
-						pass=${pass_input}
-					else
-						pass="123"
-					fi
-					sed -i "13c password=${pass}               ; (default is no password (open server))" /etc/supervisord.conf
-				fi
-			fi
-			supervisord
-			systemctl start supervisor.service
-			supervisorctl reload
-			supervisorctl status ssr
-			echo -e " ${Info} supervisor安装完成！"
-			read -p "是否退出脚本 :(y/n)" firewalld_input
-			if [ ${firewalld_input} == "y" ] ;then
-				exit 1
-			fi
-			sleep 2s
-			start_menu
-		fi
-		if [ ${num} == "2" ] ;then
-			supervisorctl status ssr
-			sleep 2s
-			start_menu
-		fi
-		if [ ${num} == "3" ] ;then
-			start_menu
-		fi
-	fi
-}
+# 					if [ ${pass_input} ] ;then
+# 						pass=${pass_input}
+# 					else
+# 						pass="123"
+# 					fi
+# 					sed -i "13c password=${pass}               ; (default is no password (open server))" /etc/supervisord.conf
+# 				fi
+# 			fi
+# 			supervisord
+# 			systemctl start supervisor.service
+# 			supervisorctl reload
+# 			supervisorctl status ssr
+# 			echo -e " ${Info} supervisor安装完成！"
+# 			read -p "是否退出脚本 :(y/n)" firewalld_input
+# 			if [ ${firewalld_input} == "y" ] ;then
+# 				exit 1
+# 			fi
+# 			sleep 2s
+# 			start_menu
+# 		fi
+# 		if [ ${num} == "2" ] ;then
+# 			supervisorctl status ssr
+# 			sleep 2s
+# 			start_menu
+# 		fi
+# 		if [ ${num} == "3" ] ;then
+# 			start_menu
+# 		fi
+# 	fi
+# }
 
 
 #############系统检测组件#############
