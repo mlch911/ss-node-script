@@ -5,13 +5,13 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.5.6
+#	Version: 0.5.7
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.5.6"
-github="https://git.mluoc.tk/mlch911/ss-node-script/raw/branch/master"
+sh_ver="0.5.7"
+github="https://raw.githubusercontent.com/mlch911/ss-node-script/master"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
@@ -133,7 +133,7 @@ Install_Shell(){
 	yum install -y yum-utils device-mapper-persistent-data lvm2
 	yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 	yum makecache fast
-	yum -y install docker-ce docker-compose
+	yum -y install docker-ce docker-compose docker
 	systemctl enable docker
 	systemctl start docker
 
