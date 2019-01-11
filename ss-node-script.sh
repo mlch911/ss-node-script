@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS 7+
 #	Description: sspanel后端一键安装脚本
-#	Version: 0.5.9
+#	Version: 0.6.0
 #	Author: 壕琛
 #	Blog: http://mluoc.top/
 #=================================================
 
-sh_ver="0.5.9"
+sh_ver="0.6.0"
 github="https://raw.githubusercontent.com/mlch911/ss-node-script/master"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
@@ -228,7 +228,19 @@ ServerSetup_Shell(){
 		mysql_db=${mysql_db_input}
 	fi
 
-	docker run -d --name=ssrmu -e NODE_ID=${node_id} -e API_INTERFACE=glzjinmod -e MYSQL_HOST=${mysql_host} -e MYSQL_PORT=${mysql_port} -e MYSQL_DB=${mysql_db} -e MYSQL_USER=${mysql_user} -e MYSQL_PASS=${mysql_pass} --network=host --log-opt max-size=50m --log-opt max-file=3 --restart=always fanvinga/docker-ssrmu
+	read -p "是否运行服务 :(y/n)" run_input_a
+	if [ ${run_input_a} == "y" ] ;then
+		docker run -d --name=ssrmu -e NODE_ID=${node_id} -e API_INTERFACE=glzjinmod -e MYSQL_HOST=${mysql_host} -e MYSQL_PORT=${mysql_port} -e MYSQL_DB=${mysql_db} -e MYSQL_USER=${mysql_user} -e MYSQL_PASS=${mysql_pass} --network=host --log-opt max-size=50m --log-opt max-file=3 --restart=always fanvinga/docker-ssrmu
+		echo -e " ${Info} sspanel后端运行成功！"
+		read -p "是否退出脚本 :(y/n)" run_input_b
+		if [ ${run_input_b} == "y" ] ;then
+			exit 1
+		fi
+		sleep 2s
+		start_menu
+	else
+		start_menu
+	fi
 
 	echo -e "${Info}服务器配置完成！"
 	sleep 5s
